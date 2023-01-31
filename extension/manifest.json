@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "Hello Extensions",
+  "description": "None",
+  "version": "1.0",
+  "action": {
+    "default_popup": "hello.html",
+    "default_icon": "fake-news-facts.png"
+  },
+  "permissions":[
+
+  
+    "tabs"
+  ]
+
+}
