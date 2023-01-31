@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "g8ZKTVRs1c71OC1g0tLCoTRNB9rIBWMq5U8zX0fFuCi4SZlTZDUraJ1drJGERbyQ9ojW4W3lasyu/JYxYUVTAQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Alexander\\Desktop\\neo4jexample\\Neo4JAuraExample\\Neo4JAuraExample.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Alexander\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\5.0.0\\microsoft.bcl.asyncinterfaces.5.0.0.nupkg.sha512",
+    "C:\\Users\\Alexander\\.nuget\\packages\\neo4j.driver\\5.4.0\\neo4j.driver.5.4.0.nupkg.sha512",
+    "C:\\Users\\Alexander\\.nuget\\packages\\system.valuetuple\\4.5.0\\system.valuetuple.4.5.0.nupkg.sha512"
+  ],
+  "logs": []
+}
