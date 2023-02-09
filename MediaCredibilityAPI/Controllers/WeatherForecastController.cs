@@ -35,34 +35,90 @@ namespace MediaCredibilityAPI.Controllers
             var user = "neo4j";
             var password = "k7by2DDGbQvb98r5geSqJMLf1TRBlL_EWeGHqhrxn8M";
             var w = new WeatherForecastController();
-            await w.CreateFriendship("N", "p");
+            /*await w.CreateArticle("TestArt-A", artPublisher: "TestPub-A");
+            await w.CreateArticle("TestArt-GroundFact1", artGroundFact: "GroundFact-A", artPublisher: "TestPub-GroundFact1");
+            await w.CreateAuthor("TestArt-A", "TestPub-A", "Author-A");
+            await w.CreateAuthor("TestArt-GroundFact1", "TestPub-GroundFact1", "Author-GroundFact1");
+            await w.CreateArgument("TestArt-A", "TestPub-A", "TestClaim-A");
+            await w.CreateBacking("TestArt-GroundFact1", "TestPub-GroundFact1", "TestClaim-A");*/
         }
 
-        private async Task CreateFriendship(string person1Name, string person2Name)
+        [HttpPost("CreateArticle")]
+        public async Task CreateArticle(string artTitle, string? artGroundFact = null, string? artPublisher = null, string? artLink = null, string? artCreatedDate = null, string? artConclusion = null)
         {
-            // To learn more about the Cypher syntax, see https://neo4j.com/docs/cypher-manual/current/
-            // The Reference Card is also a good resource for keywords https://neo4j.com/docs/cypher-refcard/current/
             var query = @"
-        MERGE (p1:Person { name: $person1Name })
-        MERGE (p2:Person { name: $person2Name })
-        MERGE (p1)-[:KNOWS]->(p2)
-        RETURN p1, p2";
+                CREATE (art:Article { 
+                    title: $artTitle, 
+                    groundFact: $artGroundFact, 
+                    publisher: $artPublisher, 
+                    link: $artLink, 
+                    createdDate: $artCreatedDate, 
+                    conclusion: $artConclusion
+                    })";
 
+            await ExecuteQuery(query, new {artTitle, artGroundFact, artPublisher, artLink, artCreatedDate, artConclusion});
+        }
+
+        [HttpPost("CreateAuthor")]
+        public async Task CreateAuthor(string artTitle, string artPublisher, string authorName, string? age = null, string? company = null, string? physCompAddress = null, string? education = null, string? politicalOrientation = null)
+        {
+            var query = @"
+                MATCH(art:Article{title: $artTitle, publisher: $artPublisher})
+                CREATE (a:Author { 
+                    name: $authorName, 
+                    age: $age, 
+                    company: $company, 
+                    physicalCompanyAddress: $physCompAddress, 
+                    education: $education, 
+                    politicalOrientation: $politicalOrientation
+                    }),
+                (art)-[:WRITTEN_BY]->(a)";
+
+            await ExecuteQuery(query, new {artTitle, artPublisher, authorName, age, company, physCompAddress, education, politicalOrientation});
+        }
+
+        [HttpPost("CreateArgument")]
+        public async Task CreateArgument(string artTitle, string artPublisher, string claim, string? ground = null, string? warrant = null)
+        {
+            //To match with rel: MATCH(art:Article{title: $artTitle})-[:WRITTEN_BY]->(aut:Author{name: $authorName})
+            var query = @"
+                MATCH(art:Article{title: $artTitle, publisher: $artPublisher})
+                CREATE (arg:Argument { 
+                    claim: $claim, 
+                    ground: $ground, 
+                    warrant: $warrant
+                    }),
+                (art)-[:CLAIMS]->(arg)";
+
+            await ExecuteQuery(query, new {artTitle, artPublisher, claim, ground, warrant});
+        }
+
+        [HttpPost("CreateBacking")]
+        public async Task CreateBacking(string artTitle, string artPublisher, string argClaim)
+        {
+            var query = @"
+                MATCH(art:Article{title: $artTitle, publisher: $artPublisher}),
+                (arg:Argument{claim: $argClaim})
+                CREATE (arg)-[:BACKED_BY]->(art)";
+
+            await ExecuteQuery(query, new {artTitle, artPublisher, argClaim});
+        }
+
+        private async Task ExecuteQuery(string query, object parameters)
+        {
             await using var session = _driver.AsyncSession(configBuilder => configBuilder.WithDatabase("neo4j"));
             try
             {
                 // Write transactions allow the driver to handle retries and transient error
                 var writeResults = await session.ExecuteWriteAsync(async tx =>
                 {
-                    var result = await tx.RunAsync(query, new { person1Name, person2Name });
+                    var result = await tx.RunAsync(query, parameters);
                     return await result.ToListAsync();
                 });
 
                 foreach (var result in writeResults)
                 {
-                    var person1 = result["p1"].As<INode>().Properties["name"];
-                    var person2 = result["p2"].As<INode>().Properties["name"];
-                    Console.WriteLine($"Created friendship between: {person1}, {person2}");
+                    Console.WriteLine("Successful result: " + result.ToString());
                 }
             }
             // Capture any errors along with the query and data for traceability

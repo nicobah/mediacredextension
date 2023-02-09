@@ -1,18 +1,18 @@
 {
   "version": 2,
-  "dgSpecHash": "vB9a2RAxCl4P2SI1sGnEnLNRcns/g91K/nWpBJxJcPPTnC2tQk705cHeTxnhky1BuU4rhXnYXzYIcIa3btvMxg==",
+  "dgSpecHash": "ouA3a/4pV8ugmDrYx7noEzmgIl7BsU8rXe9mzhON4jvBEbH6PS6alkL8QmlDUmdRhSFx9Snr104eH+YS2InzTg==",
   "success": true,
-  "projectFilePath": "D:\\Desktop\\kand\\MediaCredibility\\MediaCredibilityAPI\\MediaCredibilityAPI.csproj",
+  "projectFilePath": "C:\\Users\\Alexander\\Documents\\GitHub\\MediaCredibility\\MediaCredibilityAPI\\MediaCredibilityAPI.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\nicol\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\5.0.0\\microsoft.bcl.asyncinterfaces.5.0.0.nupkg.sha512",
-    "C:\\Users\\nicol\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
-    "C:\\Users\\nicol\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
-    "C:\\Users\\nicol\\.nuget\\packages\\neo4j.driver\\5.5.0\\neo4j.driver.5.5.0.nupkg.sha512",
-    "C:\\Users\\nicol\\.nuget\\packages\\swashbuckle.aspnetcore\\6.2.3\\swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
-    "C:\\Users\\nicol\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.2.3\\swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
-    "C:\\Users\\nicol\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.2.3\\swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",
-    "C:\\Users\\nicol\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.2.3\\swashbuckle.aspnetcore.swaggerui.6.2.3.nupkg.sha512",
-    "C:\\Users\\nicol\\.nuget\\packages\\system.valuetuple\\4.5.0\\system.valuetuple.4.5.0.nupkg.sha512"
+    "C:\\Users\\Alexander\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\5.0.0\\microsoft.bcl.asyncinterfaces.5.0.0.nupkg.sha512",
+    "C:\\Users\\Alexander\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "C:\\Users\\Alexander\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\Alexander\\.nuget\\packages\\neo4j.driver\\5.5.0\\neo4j.driver.5.5.0.nupkg.sha512",
+    "C:\\Users\\Alexander\\.nuget\\packages\\swashbuckle.aspnetcore\\6.2.3\\swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
+    "C:\\Users\\Alexander\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.2.3\\swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
+    "C:\\Users\\Alexander\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.2.3\\swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",
+    "C:\\Users\\Alexander\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.2.3\\swashbuckle.aspnetcore.swaggerui.6.2.3.nupkg.sha512",
+    "C:\\Users\\Alexander\\.nuget\\packages\\system.valuetuple\\4.5.0\\system.valuetuple.4.5.0.nupkg.sha512"
   ],
   "logs": []
 }
