@@ -66,3 +66,4 @@ C:\Users\Alexander\Documents\GitHub\MediaCredibility\MediaCredibilityAPI\obj\Deb
 C:\Users\Alexander\Documents\GitHub\MediaCredibility\MediaCredibilityAPI\obj\Debug\net6.0\MediaCredibilityAPI.pdb
 C:\Users\Alexander\Documents\GitHub\MediaCredibility\MediaCredibilityAPI\obj\Debug\net6.0\MediaCredibilityAPI.genruntimeconfig.cache
 C:\Users\Alexander\Documents\GitHub\MediaCredibility\MediaCredibilityAPI\obj\Debug\net6.0\ref\MediaCredibilityAPI.dll
+C:\Users\Alexander\Documents\GitHub\MediaCredibility\MediaCredibilityAPI\bin\Debug\net6.0\Newtonsoft.Json.dll

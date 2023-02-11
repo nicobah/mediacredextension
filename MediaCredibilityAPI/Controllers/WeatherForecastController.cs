@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using Neo4j.Driver;
+using System.Text.Json;
+using Newtonsoft.Json;
+using System.Reflection;
 
 namespace MediaCredibilityAPI.Controllers
 {
@@ -18,7 +21,7 @@ namespace MediaCredibilityAPI.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
 
-       
+
 
         public WeatherForecastController()
         {
@@ -43,6 +46,15 @@ namespace MediaCredibilityAPI.Controllers
             await w.CreateBacking("TestArt-GroundFact1", "TestPub-GroundFact1", "TestClaim-A");*/
         }
 
+        [HttpGet("GetLinkInfo")]
+        public async Task GetLinkInfo(string url)
+        {
+            var query = @"MATCH (art:Article{link: $url})-[r]-(b)
+                            RETURN art, r, b";
+
+            await ExecuteQuery(query, new { url });
+        }
+
         [HttpPost("CreateArticle")]
         public async Task CreateArticle(string artTitle, string? artGroundFact = null, string? artPublisher = null, string? artLink = null, string? artCreatedDate = null, string? artConclusion = null)
         {
@@ -56,7 +68,7 @@ namespace MediaCredibilityAPI.Controllers
                     conclusion: $artConclusion
                     })";
 
-            await ExecuteQuery(query, new {artTitle, artGroundFact, artPublisher, artLink, artCreatedDate, artConclusion});
+            await ExecuteQuery(query, new { artTitle, artGroundFact, artPublisher, artLink, artCreatedDate, artConclusion });
         }
 
         [HttpPost("CreateAuthor")]
@@ -74,7 +86,7 @@ namespace MediaCredibilityAPI.Controllers
                     }),
                 (art)-[:WRITTEN_BY]->(a)";
 
-            await ExecuteQuery(query, new {artTitle, artPublisher, authorName, age, company, physCompAddress, education, politicalOrientation});
+            await ExecuteQuery(query, new { artTitle, artPublisher, authorName, age, company, physCompAddress, education, politicalOrientation });
         }
 
         [HttpPost("CreateArgument")]
@@ -90,7 +102,7 @@ namespace MediaCredibilityAPI.Controllers
                     }),
                 (art)-[:CLAIMS]->(arg)";
 
-            await ExecuteQuery(query, new {artTitle, artPublisher, claim, ground, warrant});
+            await ExecuteQuery(query, new { artTitle, artPublisher, claim, ground, warrant });
         }
 
         [HttpPost("CreateBacking")]
@@ -101,7 +113,7 @@ namespace MediaCredibilityAPI.Controllers
                 (arg:Argument{claim: $argClaim})
                 CREATE (arg)-[:BACKED_BY]->(art)";
 
-            await ExecuteQuery(query, new {artTitle, artPublisher, argClaim});
+            await ExecuteQuery(query, new { artTitle, artPublisher, argClaim });
         }
 
         private async Task ExecuteQuery(string query, object parameters)
@@ -115,11 +127,7 @@ namespace MediaCredibilityAPI.Controllers
                     var result = await tx.RunAsync(query, parameters);
                     return await result.ToListAsync();
                 });
-
-                foreach (var result in writeResults)
-                {
-                    Console.WriteLine("Successful result: " + result.ToString());
-                }
+                GetNodesFromResult(writeResults, parameters);
             }
             // Capture any errors along with the query and data for traceability
             catch (Neo4jException ex)
@@ -127,6 +135,152 @@ namespace MediaCredibilityAPI.Controllers
                 Console.WriteLine($"{query} - {ex}");
                 throw;
             }
+        }
+
+        private async void GetNodesFromResult(List<IRecord> writeResults, object parameters)
+        {
+            Console.WriteLine("");
+
+            var articles = new List<Article>();
+            var authors = new List<Author>();
+            var arguments = new List<Argument>();
+            var secondArguments = new List<Argument>();
+            var relationships = new List<Relationship>();
+            foreach (var result in writeResults)
+            {
+                var relationJSON = JsonConvert.SerializeObject(result[1].As<IRelationship>());
+                var nodePropsFirstNode = JsonConvert.SerializeObject(result[0].As<INode>().Properties);
+                var nodePropsSecondNode = JsonConvert.SerializeObject(result[2].As<INode>().Properties);
+
+                var firstNodeAuthor = JsonConvert.DeserializeObject<Author>(nodePropsFirstNode);
+                var firstNodeArgument = JsonConvert.DeserializeObject<Argument>(nodePropsFirstNode);
+                var firstNodeArticle = JsonConvert.DeserializeObject<Article>(nodePropsFirstNode);
+                
+                var secondNodeAuthor = JsonConvert.DeserializeObject<Author>(nodePropsSecondNode);
+                var secondNodeArgument = JsonConvert.DeserializeObject<Argument>(nodePropsSecondNode);
+                var secondNodeArticle = JsonConvert.DeserializeObject<Article>(nodePropsSecondNode);
+                var relationship = JsonConvert.DeserializeObject<Relationship>(relationJSON);
+
+                //The node on [0] and [2] can be any of the following types of node: Author, Argument, Article.
+                //The object will not be null when deserializing to the wrong type, but the properties will be empty/null, so check for those to correctly deserialize
+                var firstNode = "";
+                Type firstNodeType = null;
+                if (firstNodeAuthor != null && firstNodeAuthor.Name != null && firstNodeAuthor.Name.Length > 1)
+                {
+                    var indexArticle = authors.FindIndex(x => x.Name.ToLower() == firstNodeAuthor.Name.ToLower());
+                    if (indexArticle < 0)
+                        authors.Add(firstNodeAuthor);
+                    firstNode = firstNodeAuthor.Name;
+                    firstNodeType = firstNodeAuthor.GetType();
+                }
+
+                if (firstNodeArgument != null && firstNodeArgument.Claim != null && firstNodeArgument.Claim.Length > 1)
+                {
+                    var indexArticle = arguments.FindIndex(x => x.Claim.ToLower() == firstNodeArgument.Claim.ToLower());
+                    if (indexArticle < 0)
+                        arguments.Add(firstNodeArgument);
+                    firstNode = firstNodeArgument.Claim;
+                    firstNodeType = firstNodeArgument.GetType();
+                }
+
+                if (firstNodeArticle != null && firstNodeArticle.Title != null && firstNodeArticle.Title.Length > 1)
+                {
+                    var indexArticle = articles.FindIndex(x => x.Title.ToLower() == firstNodeArticle.Title.ToLower());
+                    if (indexArticle < 0)
+                        articles.Add(firstNodeArticle);
+                    firstNode = firstNodeArticle.Title;
+                    firstNodeType = firstNodeArticle.GetType();
+                }
+                
+                
+                var secondNode = "";
+                Type secondNodeType = null;
+                if (secondNodeAuthor != null && secondNodeAuthor.Name != null && secondNodeAuthor.Name.Length > 1)
+                {
+                    var indexAuthor = authors.FindIndex(x => x.Name.ToLower() == secondNodeAuthor.Name.ToLower());
+                    if (indexAuthor < 0)
+                        authors.Add(secondNodeAuthor);
+                    secondNode = secondNodeAuthor.Name;
+                    secondNodeType = secondNodeAuthor.GetType();
+                }
+                else if (secondNodeArgument != null && secondNodeArgument.Claim != null && secondNodeArgument.Claim.Length > 1)
+                {
+                    var indexArg = arguments.FindIndex(x => x.Claim.ToLower() == secondNodeArgument.Claim.ToLower());
+                    if (indexArg < 0)
+                    {
+                        secondArguments.Add(secondNodeArgument);
+                        arguments.Add(secondNodeArgument);
+                    }
+                    secondNode = secondNodeArgument.Claim;
+                    secondNodeType = secondNodeArgument.GetType();
+                }
+                else if (secondNodeArticle != null && secondNodeArticle.Title != null && secondNodeArticle.Title.Length > 1)
+                {
+                    var indexArticle = articles.FindIndex(x => x.Title.ToLower() == secondNodeArticle.Title.ToLower());
+                    if (indexArticle < 0)
+                        articles.Add(secondNodeArticle);
+                    secondNode = secondNodeArticle.Title;
+                    secondNodeType = secondNodeArticle.GetType();
+                }
+
+                var relation = "";
+                if (relationship != null)
+                {
+                    var indexRelation = relationships.FindIndex(x => x.Type.ToLower() == relationship.Type.ToLower());
+                    if (indexRelation < 0)
+                        relationships.Add(relationship);
+                    relation = relationship.Type;
+                }
+
+                var relationString = firstNodeType != null && secondNodeType != null
+                    ? FormatRelationString(firstNodeType, secondNodeType, relation, firstNode, secondNode)
+                    : "Unknown Types.";
+
+                Console.WriteLine(relationString);
+
+            }
+            Console.WriteLine("\nUnique Articles: ");
+            foreach (var art in articles)
+            {
+                Console.WriteLine(art.ToString());
+            }
+            Console.WriteLine("\nUnique Authors: ");
+            foreach (var aut in authors)
+            {
+                Console.WriteLine(aut.ToString());
+            }
+            Console.WriteLine("\nUnique Arguments: ");
+            foreach (var arg in arguments)
+            {
+                Console.WriteLine(arg.ToString());
+            }
+            Console.WriteLine("\nUnique Relationships: ");
+            foreach (var rel in relationships)
+            {
+                Console.WriteLine(rel.ToString());
+            }
+
+            foreach(var arg in secondArguments) {
+                var claimDesc = arg.Claim;
+                var query = @"
+                MATCH (arg:Argument{claim: $claimDesc})-[r]-(b)
+                RETURN arg, r, b";
+                await ExecuteQuery(query, new {claimDesc});
+            }
+        }
+
+        private string FormatRelationString(Type firstNodeType, Type secondNodeType, string relation, string firstNode, string secondNode)
+        {
+            var direction = "??";
+
+            if ((firstNodeType == typeof(Article) && secondNodeType == typeof(Author))
+                || (firstNodeType == typeof(Article) && secondNodeType == typeof(Argument))
+                || (firstNodeType == typeof(Argument) && secondNodeType == typeof(Article) && relation.ToLower() == "backed_by"))
+                direction = " - " + relation + " -> ";
+            else
+                direction = " <- " + relation + " - ";
+
+            return firstNode + direction + secondNode;
         }
     }
 }
