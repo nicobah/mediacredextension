@@ -11,6 +11,11 @@
 
   
     "tabs"
-  ]
+  ],
+  "content_scripts": [
+    {
+    "matches" : ["https://www.google.com/*"],
+    "js" : ["scripts/test.js"]
+}]
 
 }
