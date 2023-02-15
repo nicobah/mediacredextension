@@ -1,10 +1,13 @@
 ﻿@page "/popup.html"
 @using mediacredextension.Pages.tabs
+@inject IApiData _apiData
 @inherits BasePage
+
 
     <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
     <MudTabPanel Text="Credibility Rating">
         <MudText>Content One</MudText>
+        <MudText>@title</MudText>
     </MudTabPanel>
     <MudTabPanel Text="Create">
         <MudTabs Outlined="true" Position="Position.Left" Rounded="true" Border="true"
@@ -13,7 +16,7 @@
                 <CreateArticleTab />
             </MudTabPanel>
             <MudTabPanel Text="Argument">
-                <CreateArgumentTab />
+                <CreateArgumentTab/>
             </MudTabPanel>
             <MudTabPanel Text="Author">
                 <CreateAuthorTab />
@@ -27,13 +30,14 @@
 </MudTabs>
 
 @code {
+    private string title = "";
     private HttpClient client;
+
     protected override async Task OnInitializedAsync()
     {
-        client = new HttpClient();
-        client.BaseAddress = new Uri("https://mediacred-rswnzpohoq-ew.a.run.app/");
-
+        title = await _apiData.GetLinkInfo("12");
     }
 
-
 }
+
+

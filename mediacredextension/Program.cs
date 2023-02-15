@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using MudBlazor.Services;
+using Refit;
 
 namespace mediacredextension
 {
@@ -16,6 +17,7 @@ namespace mediacredextension
             builder.RootComponents.Add<App>("#app");
             builder.RootComponents.Add<HeadOutlet>("head::after");
 
+            builder.Services.AddRefitClient<IApiData>().ConfigureHttpClient(x => x.BaseAddress = new Uri("https://mediacred-rswnzpohoq-ew.a.run.app"));
             builder.Services.AddMudServices();
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
