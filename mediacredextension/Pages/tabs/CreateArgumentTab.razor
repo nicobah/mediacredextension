@@ -1,0 +1,29 @@
+﻿<MudStack>
+    <MudTextField T="string" Label="Title"></MudTextField>
+    <MudTextField T="string" Label="Publisher"></MudTextField>
+    <MudTextField T="string" Label="Claim"></MudTextField>
+    <MudTextField T="string" Label="Ground"></MudTextField>
+    <MudTextField T="string" Label="Warrant"></MudTextField>
+    <MudIconButton OnClick="async ()=> await CreateArticle()" Icon="@Icons.Filled.Add"></MudIconButton>
+</MudStack>
+
+
+
+@code{
+    private async Task CreateArticle()
+    {
+        //try
+        //{
+        //    var pairs = new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("artTitle", "popuptest") };
+
+        //    var res = await client.PostAsync("weatherforecast/createarticle?artTitle=yesman2", null);
+        //    Console.WriteLine();
+        //}
+        //catch (Exception e)
+        //{
+
+        //    Console.WriteLine(e);
+        //}
+
+    }
+}
