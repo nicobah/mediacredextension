@@ -13,13 +13,8 @@ namespace mediacredextension
         [Post("/mediacredapi/createarticle")]
         Task CreateArticle(Article art);
 
-        [Post("/mediacredapi/createauthor")]
-        Task CreateAuthor([Query]Article article, [Query] Author author);
+        [Get("/mediacredapi/getlinktoulmin")]
+        Task<string> GetLinkToulmin(string url);
 
-        [Post("/mediacredapi/createargument")]
-        Task CreateArgument([Query] Article article, [Query] Argument argument);
-
-        [Post("/mediacredapi/createbacking")]
-        Task CreateBacking([Query] Article article, [Query] Argument argument);
     }
 }

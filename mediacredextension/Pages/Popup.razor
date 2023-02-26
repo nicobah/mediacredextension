@@ -1,13 +1,20 @@
-﻿@page "/popup.html"
+﻿
+@page "/popup.html"
+@using WebExtensions.Net.Windows;
 @using mediacredextension.Pages.tabs
 @inject IApiData _apiData
 @inherits BasePage
+@inject IJSRuntime jsruntime
 
 
     <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
     <MudTabPanel Text="Credibility Rating">
-        <MudText>Content One</MudText>
-        <MudText>@title</MudText>
+        <MudText>Argument strength</MudText>
+        <MudText>@strength</MudText>
+        <MudText>@currentUrl</MudText>
+        <p>Testofpageurl</p>
+        <p>@indexPageUrl</p>
+
     </MudTabPanel>
     <MudTabPanel Text="Create">
         <MudTabs Outlined="true" Position="Position.Left" Rounded="true" Border="true"
@@ -30,12 +37,17 @@
 </MudTabs>
 
 @code {
-    private string title = "";
+    private string strength = "";
     private HttpClient client;
-
+    private string indexPageUrl;
+    private string currentUrl;
     protected override async Task OnInitializedAsync()
     {
-        title = await _apiData.GetLinkInfo("12");
+        var qoptions = new GetInfo() {Populate = true };
+        var tabinfo = await WebExtensions.Windows.GetCurrent(qoptions);
+        currentUrl = await jsruntime.InvokeAsync<string>("getCurrentTab");
+        strength = await _apiData.GetLinkToulmin(currentUrl.Replace("http://", ""));
+
     }
 
 }

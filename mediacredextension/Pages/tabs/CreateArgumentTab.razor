@@ -1,31 +1,28 @@
 ﻿@using MediaCred;
+@inject IApiData _apiData
 <MudStack>
-    <MudTextField T="string" Label="Title"></MudTextField>
-    <MudTextField T="string" Label="Publisher"></MudTextField>
-    <MudTextField T="string" Label="Claim"></MudTextField>
-    <MudTextField T="string" Label="Ground"></MudTextField>
-    <MudTextField T="string" Label="Warrant"></MudTextField>
-    <MudIconButton OnClick="async ()=> await CreateArticle()" Icon="@Icons.Filled.Add"></MudIconButton>
+    <MudTextField @bind-Value="title" T="string" Label="Title"></MudTextField>
+    <MudTextField @bind-Value="publisher" T="string" Label="Publisher"></MudTextField>
+    <MudTextField @bind-Value="claim" T="string" Label="Claim"></MudTextField>
+    <MudTextField @bind-Value="ground" T="string" Label="Ground"></MudTextField>
+    <MudTextField @bind-Value="warrant" T="string" Label="Warrant"></MudTextField>
+    <MudIconButton OnClick="async ()=> await CreateArgument()" Icon="@Icons.Filled.Add"></MudIconButton>
 </MudStack>
 
 
 
 @code{
+    private string title;
+    private string publisher;
+    private string claim;
+    private string ground;
+    private string warrant;
 
-    private async Task CreateArticle()
+    private async Task CreateArgument()
     {
-        //try
-        //{
-        //    var pairs = new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("Article", "popuptest") };
+        //var article = new Article() { Title = title, Publisher = publisher };
+        //await _apiData.CreateArgument(article, argument);
 
-        //    var res = await client.PostAsync("weatherforecast/createarticle?artTitle=yesman2", null);
-        //    Console.WriteLine();
-        //}
-        //catch (Exception e)
-        //{
-
-        //    Console.WriteLine(e);
-        //}
 
     }
 }

@@ -17,13 +17,22 @@
   "content_security_policy": {
     "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
   },
+  "content_scripts": [
+    {
+      "matches": [ "*://*/*" ],
+      "js": [ "content/Blazor.BrowserExtension/ContentScript.js" ]
+    }
+  ],
   "web_accessible_resources": [
     {
       "resources": [
         "framework/*",
-        "content/*"
-      ],
-      "matches": [ "<all_urls>" ]
+        "content/*",
+        "app.js"
+      ]
     }
+  ],
+  "permissions": [
+    "tabs"
   ]
 }

@@ -14,7 +14,7 @@ namespace mediacredextension
         public static async Task Main(string[] args)
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
-            builder.RootComponents.Add<App>("#app");
+            builder.RootComponents.Add<App>("#kand_extension_uid");
             builder.RootComponents.Add<HeadOutlet>("head::after");
 
             builder.Services.AddRefitClient<IApiData>().ConfigureHttpClient(x => x.BaseAddress = new Uri("https://mediacred-rswnzpohoq-ew.a.run.app"));
