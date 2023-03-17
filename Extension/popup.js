@@ -148,37 +148,29 @@ fetch(authorCredEval, { headers: { "Content-Type": "application/json" }, method:
 document.getElementById("authorSearch").addEventListener("keyup", searchAuthors);
 
 function searchAuthors(evt) {
-
-    var li, i, item, txtValue;
+    var ul = document.getElementById("authorList");
+    ul.innerHTML = "";
     var value = document.getElementById("authorSearch").value;
-    var filter = value.toUpperCase();
-
     var getSearchUrl = baseUrl + "AuthorFilterName?name=" + value;
-    var searchData = {
-        name: value
-    }
-
+    var ul = document.getElementById("authorList");
+    var i;
     fetch(getSearchUrl, { headers: { "Content-Type": "application/json" }, method: 'GET' }).then(function (res) {
         if (res.status !== 200) {
             alert(res.status)
         } else {
             res.json().then(data => {
-
+                for (i = 0; i < data.length; i++) {
+                    var li = document.createElement('li');
+                    li.appendChild(document.createTextNode(data[i].name));
+                    li.display = "block";
+                    ul.appendChild(li);
+                }
             })
         }
     });
 
 
-    var ul = document.getElementById("authorList");
-    li = ul.getElementsByTagName("li"); for (i = 0; i < li.length; i++) {
-        item = li[i];
-        txtValue = item.textContent || item.innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1 && value !== "") {
-            li[i].style.display = "block";
-        } else {
-            li[i].style.display = "none";
-        }
-    }
+
 
 }
 
