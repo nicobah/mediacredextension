@@ -1,14 +1,19 @@
+//const baseUrl = 'https://mediacred-rswnzpohoq-ew.a.run.app/mediacredapi/';
+const baseUrl = 'https://localhost:7220/mediacredapi/'
 
-/* #region linkCred*/
+
 //GET url of active tab
-
+var activeTab;
 //UNCOMMENT, for debugging purposes
 // chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-//     var activeTab = tabs[0];
-//     document.getElementById("url").innerHTML = activeTab.url;
+//     activeTab = tabs[0];
 // });
+
+
+/* #region CurrentArticleCredibilityToulmin */
+
 //GET the toulmins fit of the current url
-const apiCall = 'https://mediacred-rswnzpohoq-ew.a.run.app/mediacredapi/getlinktoulmin?url=localhost:6';
+const apiCall = baseUrl + "getlinktoulmin?url=localhost:6";
 
 fetch(apiCall, { headers: { "Content-Type": "application/json" } }).then(function (res) {
     if (res.status !== 200) {
@@ -46,9 +51,39 @@ function openTab(evt) {
 /* #endregion */
 
 
-const authorCredEval = "https://localhost:7220/mediacredapi/authorcredibility";
 
-// const authorCredEval = "https://mediacred-rswnzpohoq-ew.a.run.app/mediacredapi/authorcredibility";
+/* #region AddArticle */
+
+
+document.getElementById("AddArticleBtn").addEventListener("click", addArticle);
+
+function addArticle() {
+    const addArticleData = {
+        title: document.getElementById("articleTitle").value,
+        publisher: document.getElementById("artPublisher").value,
+        link: activeTab.url
+    };
+    const addArticleUrl = baseUrl + "createArticle";
+    fetch(addArticleUrl, { headers: { "Content-Type": "application/json" }, method: 'POST', body: JSON.stringify(addArticleData) }).then(function (res) {
+        if (res.status !== 200) {
+            alert(res.status)
+        } else {
+            res.json().then(data => {
+
+            })
+        }
+    });
+
+}
+/* #endregion */
+
+
+
+/* #region GET authorcredibility*/
+//Get the authorCred eval
+
+const authorCredEval = baseUrl + "authorcredibility";
+
 const authorData = {
     authorId: 1,
     evals: [
@@ -56,8 +91,6 @@ const authorData = {
     ]
 };
 
-
-//Get the authorCred eval
 fetch(authorCredEval, { headers: { "Content-Type": "application/json" }, method: 'POST', body: JSON.stringify(authorData) }).then(function (res) {
     if (res.status !== 200) {
         alert(res.status)
@@ -79,3 +112,5 @@ fetch(authorCredEval, { headers: { "Content-Type": "application/json" }, method:
         })
     }
 });
+
+/* #endregion */
