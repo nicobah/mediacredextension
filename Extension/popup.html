@@ -18,37 +18,122 @@
         <button class="tablinks" id="SettingsButton">Settings</button>
     </div>
 
-    <!-- Tab content -->
+    <!-- #region CredibilityContent -->
     <div id="CredButtonContent" class="tabcontent">
         <p id="linkCred"></p>
         <h3>Credibility</h3>
         <p>The stuff about the current credibility should be here</p>
     </div>
+    <!-- #endregion -->
 
+    <!-- #region DataContent -->
     <div id="DataButtonContent" class="tabcontent">
-        <h3>Insert Data</h3>
         <form>
+            <h3>Create Article</h3>
             <label for="articleTitle">Title:</label>
             <input type="text" id="articleTitle" name="articleTitle"><br><br>
 
             <label for="artPublisher">Publisher:</label>
             <input type="text" id="artPublisher" name="artPublisher"><br><br>
 
+            <input type="text" id="authorSearch" placeholder="Search for Author">
+            <ul id="authorList">
+                <li>Alabama</li>
+                <li>Alaska</li>
+                <li>Arizona</li>
+                <li>Arkansas</li>
+                <li>California</li>
+                <li>Colorado</li>
+                <li>Connecticut</li>
+                <li>Delaware</li>
+                <li>Florida</li>
+                <li>Georgia</li>
+                <li>Hawaii</li>
+                <li>Idaho</li>
+                <li>Illinois</li>
+                <li>Indiana</li>
+                <li>Iowa</li>
+                <li>Kansas</li>
+                <li>Kentucky</li>
+                <li>Louisiana</li>
+                <li>Maine</li>
+                <li>Maryland</li>
+                <li>Massachusetts</li>
+                <li>Michigan</li>
+                <li>Minnesota</li>
+                <li>Mississippi</li>
+                <li>Missouri</li>
+                <li>Montana</li>
+                <li>Nebraska</li>
+                <li>Nevada</li>
+                <li>New Hampshire</li>
+                <li>New Jersey</li>
+                <li>New Mexico</li>
+                <li>New York</li>
+                <li>North Carolina</li>
+                <li>North Dakota</li>
+                <li>Ohio</li>
+                <li>Oklahoma</li>
+                <li>Oregon</li>
+                <li>Pennsylvania</li>
+                <li>Rhode Island</li>
+                <li>South Carolina</li>
+                <li>South Dakota</li>
+                <li>Tennessee</li>
+                <li>Texas</li>
+                <li>Utah</li>
+                <li>Vermont</li>
+                <li>Virginia</li>
+                <li>Washington</li>
+                <li>West Virginia</li>
+                <li>Wisconsin</li>
+                <li>Wyoming</li>
+            </ul>
+
+
             <button type="submit" id="AddArticleBtn">Add Article</button>
-
         </form>
-    </div>
+        <form>
+            <h3>Create Author</h3>
+            <label for="authName">Name:</label>
+            <input type="text" id="authName" name="authName"><br><br>
 
+            <label for="authAge">Age:</label>
+            <input type="number" id="authAge" name="authAge"><br><br>
+
+            <label for="authBio">Bio:</label>
+            <input type="text" id="authBio" name="authBio"><br><br>
+
+            <label for="authCompany">Company:</label>
+            <input type="text" id="authCompany" name="authCompany"><br><br>
+
+            <label for="authEducation">Education:</label>
+            <input type="text" id="authEducation" name="authEducation"><br><br>
+
+            <label for="authOrientation">Political Orientation:</label>
+            <input type="text" id="authOrientation" name="authOrientation"><br><br>
+
+            <button type="submit" id="AddAuthBtn">Add Author</button>
+        </form>
+
+    </div>
+    <!-- #endregion -->
+
+    <!-- #region SettingsContent-->
     <div id="SettingsButtonContent" class="tabcontent">
         <h3>Settings</h3>
         <p>This is where the settings magic happen</p>
     </div>
-    <!--Tab content -->
+
+    <!-- #endregion-->
+
     <div id="listHolder">
         <ul id="list">
 
         </ul>
     </div>
+
+
 
 </body>
 

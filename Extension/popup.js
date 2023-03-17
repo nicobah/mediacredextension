@@ -1,4 +1,4 @@
-//const baseUrl = 'https://mediacred-rswnzpohoq-ew.a.run.app/mediacredapi/';
+// const baseUrl = 'https://mediacred-rswnzpohoq-ew.a.run.app/mediacredapi/';
 const baseUrl = 'https://localhost:7220/mediacredapi/'
 
 
@@ -77,7 +77,36 @@ function addArticle() {
 }
 /* #endregion */
 
+/* #region AddAuthor */
 
+
+document.getElementById("AddAuthBtn").addEventListener("click", addAuthor);
+
+
+function addAuthor() {
+    const addAuthorData = {
+        Name: document.getElementById("authName").value,
+        Age: document.getElementById("authAge").value,
+        Image: "image",
+        Company: document.getElementById("authCompany").value,
+        Education: document.getElementById("authEducation").value,
+        PoliticalOrientation: document.getElementById("authOrientation").value,
+        Bio: document.getElementById("authBio").value,
+        AreaOfExpertise: "areaofexpertise"
+    };
+    const addAuthorUrl = baseUrl + "createAuthor";
+    fetch(addAuthorUrl, { headers: { "Content-Type": "application/json" }, method: 'POST', body: JSON.stringify(addAuthorData) }).then(function (res) {
+        if (res.status !== 200) {
+            alert(res.status)
+        } else {
+            res.json().then(data => {
+
+            })
+        }
+    });
+
+}
+/* #endregion */
 
 /* #region GET authorcredibility*/
 //Get the authorCred eval
@@ -112,5 +141,46 @@ fetch(authorCredEval, { headers: { "Content-Type": "application/json" }, method:
         })
     }
 });
+
+/* #endregion */
+
+/* #region authorSearch*/
+document.getElementById("authorSearch").addEventListener("keyup", searchAuthors);
+
+function searchAuthors(evt) {
+
+    var li, i, item, txtValue;
+    var value = document.getElementById("authorSearch").value;
+    var filter = value.toUpperCase();
+
+    var getSearchUrl = baseUrl + "AuthorFilterName?name=" + value;
+    var searchData = {
+        name: value
+    }
+
+    fetch(getSearchUrl, { headers: { "Content-Type": "application/json" }, method: 'GET' }).then(function (res) {
+        if (res.status !== 200) {
+            alert(res.status)
+        } else {
+            res.json().then(data => {
+
+            })
+        }
+    });
+
+
+    var ul = document.getElementById("authorList");
+    li = ul.getElementsByTagName("li"); for (i = 0; i < li.length; i++) {
+        item = li[i];
+        txtValue = item.textContent || item.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1 && value !== "") {
+            li[i].style.display = "block";
+        } else {
+            li[i].style.display = "none";
+        }
+    }
+
+}
+
 
 /* #endregion */
