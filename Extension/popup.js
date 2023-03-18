@@ -1,9 +1,9 @@
 // const baseUrl = 'https://mediacred-rswnzpohoq-ew.a.run.app/mediacredapi/';
 const baseUrl = 'https://localhost:7220/mediacredapi/'
-
+var selectedAuthor, activeTab;
 
 //GET url of active tab
-var activeTab;
+
 //UNCOMMENT, for debugging purposes
 // chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
 //     activeTab = tabs[0];
@@ -60,8 +60,9 @@ document.getElementById("AddArticleBtn").addEventListener("click", addArticle);
 function addArticle() {
     const addArticleData = {
         title: document.getElementById("articleTitle").value,
+        authorId: selectedAuthor,
         publisher: document.getElementById("artPublisher").value,
-        link: activeTab.url
+        link: "placeholder"
     };
     const addArticleUrl = baseUrl + "createArticle";
     fetch(addArticleUrl, { headers: { "Content-Type": "application/json" }, method: 'POST', body: JSON.stringify(addArticleData) }).then(function (res) {
@@ -161,18 +162,20 @@ function searchAuthors(evt) {
             res.json().then(data => {
                 for (i = 0; i < data.length; i++) {
                     var li = document.createElement('li');
+                    li.id = data[i].id;
                     li.appendChild(document.createTextNode(data[i].name));
+                    li.addEventListener("click", selectAuthor);
                     li.display = "block";
                     ul.appendChild(li);
                 }
             })
         }
     });
-
-
-
-
 }
 
+function selectAuthor(evt) {
+    selectedAuthor = evt.target.id;
+    evt.target.style.border = "1px solid #000000";
+}
 
 /* #endregion */
