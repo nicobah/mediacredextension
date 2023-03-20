@@ -174,6 +174,12 @@ function searchAuthors(evt) {
 }
 
 function selectAuthor(evt) {
+    var ul = document.getElementById("authorList");
+    var listelements = ul.getElementsByTagName("li");
+    for (let i = 0; i < listelements.length; i++) {
+        listelements[i].style.border = "none";
+
+    }
     selectedAuthor = evt.target.id;
     evt.target.style.border = "1px solid #000000";
 }
