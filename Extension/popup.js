@@ -220,25 +220,44 @@ function selectAuthor(evt) {
 
 
 function AddCredEvalToTable(data) {
-    const table = document.getElementById("list");
-
-
+    var cardDiv = document.getElementById("card-holder");
+    /*
+            <div class="card -small -back -flipped">
+                        <a class="card--title" href="#">Flipping card</a>
+                        <p class="card--text">
+                            hiding backface is the key
+                        </p>
+                    </div>
+                    <div class="card -small -front -orange">
+                        <p >front</p>
+                    </div>
+    */
     data.forEach(element => {
-        const tr = document.createElement("tr");
-        const td = document.createElement("td");
-        const td2 = document.createElement("td");
-        const td3 = document.createElement("td");
-        const td4 = document.createElement("td");
+        const cardHolder = document.createElement("div");
+        cardHolder.setAttribute("class", "card-holder");
 
-        td.innerHTML += element.Item1 + ' ';
-        td2.innerHTML += element.Item2 + ' ';
-        td3.setAttribute("class", "info");
-        td3.setAttribute("title", element.Item3);
-        td4.innerHTML += element.Item4 + ' ';
-        tr.appendChild(td4);
-        tr.appendChild(td);
-        tr.appendChild(td2);
-        tr.appendChild(td3);
-        table.appendChild(tr);
+        var card = document.createElement("div");
+        card.setAttribute("class", "card -small -back -flipped");
+        const a = document.createElement('a');
+        a.setAttribute("class", "card--title");
+        var p = document.createElement('p');
+        p.innerHTML = element.Item3;
+        p.setAttribute("class", "card--text");
+        card.appendChild(a);
+        card.appendChild(p);
+        const cardFront = document.createElement('div');
+        cardFront.setAttribute("class", "card -small -front -orange");
+        const p2 = document.createElement('p');
+        const p3 = document.createElement('p');
+        p3.setAttribute("class", "card--text");
+        p3.innerHTML = element.Item1;
+        p2.setAttribute("class", "card--text");
+        p2.innerHTML = element.Item4;
+        cardFront.appendChild(p2);
+        cardFront.appendChild(p3);
+
+        cardHolder.appendChild(card);
+        cardHolder.appendChild(cardFront);
+        cardDiv.appendChild(cardHolder);
     });
 }
