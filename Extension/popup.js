@@ -1,7 +1,16 @@
 // const baseUrl = 'https://mediacred-rswnzpohoq-ew.a.run.app/mediacredapi/';
 const baseUrl = 'https://localhost:7220/mediacredapi/'
 var selectedAuthor, activeTab;
+var authorInformationValue = 1;
 
+document.getElementById("authorInformationWeight").addEventListener("change", (e) => {
+    if (e.target.value.length > 0) {
+        authorInformationValue = e.target.value;
+        FetchAuthorInfo();
+    } else {
+        authorInformationValue = 1;
+    }
+})
 //GET url of active tab
 
 //UNCOMMENT, for debugging purposes
@@ -112,41 +121,64 @@ function addAuthor() {
 /* #region GET authorcredibility*/
 //Get the authorCred eval
 
-const authorCredEval = baseUrl + "authorcredibility";
 
-const authorData = {
-    authorId: 1,
-    evals: [
-        { key: "information", value: 1.23 },
+
+
+const articleEvalData = {
+    articleLink: "https://www.google.com/search?q=alexander+is+cool&sxsrf=AJOqlzWNaCaV7kNphpfRYNVKT88bYkHYnQ%3A1679050011600&source=hp&ei=G0UUZOOzIuyUxc8P7ZKsqAo&iflsig=AK50M_UAAAAAZBRTK7p2xWWfy-Qcz0mz0dhwABCHSdh1&ved=0ahUKEwijrf_b5OL9AhVsSvEDHW0JC6UQ4dUDCAc&uact=5&oq=alexander+is+cool&gs_lcp=Cgdnd3Mtd2l6EAMyBggAEBYQHjIGCAAQFhAeMgYIABAWEB4yBggAEBYQHjIGCAAQFhAeMgsIABAWEB4Q8QQQCjIGCAAQFhAeMgYIABAWEB4yBggAEBYQHjIGCAAQFhAeOgcIIxDqAhAnOg0ILhDHARCvARDqAhAnOgoILhDHARCvARAnOgQIIxAnOgQIABBDOgsIABCABBCxAxCDAToFCAAQgAQ6BQguEIAEOggILhCxAxCDAToICAAQgAQQsQM6EQguEIAEELEDEIMBEMcBENEDOgsILhCxAxCDARDUAjoECC4QQzoKCC4QsQMQgwEQQzoOCC4QgAQQsQMQgwEQ1AI6CggAELEDEIMBEEM6CwguEIAEELEDEIMBOggIABCxAxCDAToICC4QgAQQ1AI6CAguEIAEELEDOgcILhCxAxBDOgcILhDUAhBDOgcIABCxAxBDOg0ILhCxAxCDARDUAhBDOgsILhCABBCxAxDUAjoLCC4QgAQQxwEQrwE6CwguEIMBELEDEIAEOgsILhCABBDHARDRAzoICAAQgAQQywE6CAguEIAEEMsBOgoIABAWEB4QDxATOggIABAWEB4QEzoICAAQFhAeEA86CAgAEBYQHhAKUK0KWJwaYM0baAFwAHgAgAFOiAG1CZIBAjE3mAEAoAEBsAEK&sclient=gws-wiz",
+    articleEvals: [
+        { key: "information", value: 1 },
+        { key: "inappropriatewords", value: 1 },
+        { key: "references", value: 1 },
+        { key: "topic", value: 1 },
+        { key: "author", value: 1 },
+        { key: "backing", value: 1 },
+    ],
+    authorEvals: [
+        { key: "information", value: 1 },
     ]
 };
+const articleCredEval = baseUrl + "articlecredibility";
 
-fetch(authorCredEval, { headers: { "Content-Type": "application/json" }, method: 'POST', body: JSON.stringify(authorData) }).then(function (res) {
+fetch(articleCredEval, { headers: { "Content-Type": "application/json" }, method: 'POST', body: JSON.stringify(articleEvalData) }).then(function (res) {
     if (res.status !== 200) {
         alert(res.status)
     } else {
         res.json().then(data => {
             //document.getElementById("authoreval").innerHTML = JSON.stringify(data[0].Item3);
-            const ul = document.getElementById("list");
-            data.forEach(element => {
-                const li = document.createElement('li');
-                li.innerHTML = element.Item1;
-                const li2 = document.createElement('li');
-                li2.innerHTML = element.Item2;
-                const li3 = document.createElement('li');
-                li3.innerHTML = element.Item3;
-                ul.appendChild(li);
-                ul.appendChild(li2);
-                ul.appendChild(li3);
-            });
+            AddCredEvalToTable(data);
+
         })
     }
 });
+
+function FetchAuthorInfo() {
+    const authorCredEval = baseUrl + "authorcredibility";
+
+    const authorData = {
+        authorId: "d92a8c46-f0e6-4cba-8db4-03bc883be0a2",
+        evals: [
+            { key: "information", value: authorInformationValue }
+        ]
+    };
+
+    fetch(authorCredEval, { headers: { "Content-Type": "application/json" }, method: 'POST', body: JSON.stringify(authorData) }).then(function (res) {
+        if (res.status !== 200) {
+            alert(res.status)
+        } else {
+            res.json().then(data => {
+                AddCredEvalToTable(data);
+            })
+        }
+    });
+}
+
 
 /* #endregion */
 
 /* #region authorSearch*/
 document.getElementById("authorSearch").addEventListener("keyup", searchAuthors);
+
 
 function searchAuthors(evt) {
     var ul = document.getElementById("authorList");
@@ -185,3 +217,28 @@ function selectAuthor(evt) {
 }
 
 /* #endregion */
+
+
+function AddCredEvalToTable(data) {
+    const table = document.getElementById("list");
+
+
+    data.forEach(element => {
+        const tr = document.createElement("tr");
+        const td = document.createElement("td");
+        const td2 = document.createElement("td");
+        const td3 = document.createElement("td");
+        const td4 = document.createElement("td");
+
+        td.innerHTML += element.Item1 + ' ';
+        td2.innerHTML += element.Item2 + ' ';
+        td3.setAttribute("class", "info");
+        td3.setAttribute("title", element.Item3);
+        td4.innerHTML += element.Item4 + ' ';
+        tr.appendChild(td4);
+        tr.appendChild(td);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+        table.appendChild(tr);
+    });
+}

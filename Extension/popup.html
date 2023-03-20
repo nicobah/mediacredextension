@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./popup.css" />
     <script src="./popup.js" type="module"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
 </head>
 
 <body>
@@ -22,7 +24,27 @@
     <div id="CredButtonContent" class="tabcontent">
         <p id="linkCred"></p>
         <h3>Credibility</h3>
-        <p>The stuff about the current credibility should be here</p>
+        <div id="listHolder">
+            <table id="list">
+                <tr>
+                    <th>Name</th>
+                    <th>Rating</th>
+                    <th>Weight</th>
+                    <th>Info</th>
+                </tr>
+            </table>
+            <div class="card-holder">
+                <div class="card -small -back -flipped">
+                    <a class="card--title" href="#">Flipping card</a>
+                    <p class="card--text">
+                        hiding backface is the key
+                    </p>
+                </div>
+                <div class="card -small -front -orange">
+                    <p>front</p>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- #endregion -->
 
@@ -71,16 +93,19 @@
     <!-- #region SettingsContent-->
     <div id="SettingsButtonContent" class="tabcontent">
         <h3>Settings</h3>
-        <p>This is where the settings magic happen</p>
+        <ul id="settingsList">
+            <label>Author Information Weight:</label>
+            <input type="number" id="authorInformationWeight" name="authorInformationWeight"><br><br>
+        </ul>
     </div>
 
     <!-- #endregion-->
 
-    <div id="listHolder">
-        <ul id="list">
 
-        </ul>
-    </div>
+
+
+
+
 
 
 
