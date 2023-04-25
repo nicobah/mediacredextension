@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./popup.css" />
+    <script src="./popup.js" type="module"></script>
+    <!-- <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script> -->
+    <script src="./options.js" type="module"></script>
+</head>
+
+<body>
+    <p id="status"></p>
+    <div id="SettingsButtonContent">
+        <h3>User</h3>
+        <label>user id: </label>
+        <input type="text" id="userID" value="123" name="userID"><br><br>
+
+    </div>
+    <!-- #region SettingsContent-->
+    <div id="SettingsButtonContent">
+        <h3>Weights</h3>
+        <ul id="settingsList">
+            <label>Author Information: </label>
+            <input type="number" id="authorInformationWeight" name="authorInformationWeight"><br><br>
+
+            <label>Inappropriate words: </label>
+            <input type="number" id="InappropriateWeight" name="InappropriateWeight"><br><br>
+
+            <label>Article Information: </label>
+            <input type="number" id="articleInformationWeight" name="articleInformationWeight"><br><br>
+
+            <label>References: </label>
+            <input type="number" id="referencesWeight" name="referencesWeight"><br><br>
+
+            <label>Backings: </label>
+            <input type="number" id="backingWeight" name="backingWeight"><br><br>
+
+            <label>Topic relevance: </label>
+            <input type="number" id="topicWeight" name="topicWeight"><br><br>
+        </ul>
+    </div>
+    <button id="save">Save</button>
+    <!-- #endregion-->
+</body>
+
+</html>

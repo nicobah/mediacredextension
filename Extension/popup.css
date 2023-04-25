@@ -1,5 +1,5 @@
 body {
-    width: 20rem;
+    width: 400px;
   }
   
   ul {
@@ -89,4 +89,11 @@ body {
 }
 .container {
   perspective: 1000px;
+}
+.row {
+  display: flex;
+}
+
+.column {
+  flex: 50%;
 }

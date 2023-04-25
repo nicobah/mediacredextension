@@ -6,29 +6,57 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./popup.css" />
+    <script src="anychart-core.min.js" type="module"></script>
+    <script src="anychart-graph.min.js" type="module"></script>
+    <script src="anychart-data-adapter.min.js" type="module"></script>
+    <script src="networkgraph.js" type="module"></script>
     <script src="./popup.js" type="module"></script>
-    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 
+    <!-- <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script> -->
 </head>
 
 <body>
+
     <h1>MediaCredibility</h1>
     <!-- Tab Buttons -->
     <div class="tab">
         <button class="tablinks" id="CredButton">Credibility</button>
         <button class="tablinks" id="DataButton">Data</button>
-        <button class="tablinks" id="SettingsButton">Settings</button>
     </div>
 
     <!-- #region CredibilityContent -->
     <div id="CredButtonContent" class="tabcontent">
-        <p id="linkCred"></p>
-        <h3>Credibility</h3>
+        <div id="view1">
+            <div class="row">
+                <div class="column">
+                    <p>Toulmins fit</p>
+                    <p style="font-weight: bold;" id="linkCred"></p>
+                    <p>Credibility Score</p>
+                    <p id="overallScore"></p>
 
-        <div id="card-holder">
+                    <br />
+                    <h3>Credibility</h3>
+
+                    <div id="card-holder">
+
+
+                    </div>
+                </div>
+                <div class="column">
+                    <p>Claims validity</p>
+                    <ul id="claimsList"></ul>
+                </div>
+            </div>
+        </div>
+        <div id="view2" hidden="true">
+            <div style="width: 500px; height: 500px;" id="container"></div>
 
         </div>
+
     </div>
+
+
+
     <!-- #endregion -->
 
     <!-- #region DataContent -->
@@ -67,22 +95,14 @@
             <label for="authOrientation">Political Orientation:</label>
             <input type="text" id="authOrientation" name="authOrientation"><br><br>
 
+
             <button type="submit" id="AddAuthBtn">Add Author</button>
         </form>
 
     </div>
     <!-- #endregion -->
 
-    <!-- #region SettingsContent-->
-    <div id="SettingsButtonContent" class="tabcontent">
-        <h3>Settings</h3>
-        <ul id="settingsList">
-            <label>Author Information Weight:</label>
-            <input type="number" id="authorInformationWeight" name="authorInformationWeight"><br><br>
-        </ul>
-    </div>
 
-    <!-- #endregion-->
 
 
 
