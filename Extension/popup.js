@@ -283,11 +283,11 @@ function FetchClaimsValidity() {
                         showTree(x);
                     });
                     ul.appendChild(li);
-                    let btn = document.createElement("button");
-                    btn.addEventListener("click", function () {
-                        acceptValidity(x);
-                    });
-                    ul.appendChild(btn);
+                    //let btn = document.createElement("button");
+                    //btn.addEventListener("click", function () {
+                    //    acceptValidity(x);
+                    //});
+                    //ul.appendChild(btn);
                 });
             })
         }
@@ -295,11 +295,11 @@ function FetchClaimsValidity() {
 }
 
 function acceptValidity(x) {
-    fetch(baseUrl + "AcceptValidity?argInternalID=" + x.id + "&userID=AT1", { headers: { "Content-Type": "application/json" }, method: 'POST' }).then(function (res) {
+    fetch(baseUrl + "AcceptValidity?argInternalID=" + x + "&userID=AT1", { headers: { "Content-Type": "application/json" }, method: 'POST' }).then(function (res) {
         if (res.status != 200) {
             alert(res.status)
         } else {
-            //show tree again?
+            location.reload();
         }
     });
 }
@@ -332,6 +332,7 @@ function showTree(x) {
                 chart.draw();
                 chart.listen("click", function (e) {
                     var x = e.domTarget.tag.id;
+                    acceptValidity(x)
                 });
 
 
