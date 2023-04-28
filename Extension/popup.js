@@ -283,8 +283,23 @@ function FetchClaimsValidity() {
                         showTree(x);
                     });
                     ul.appendChild(li);
+                    let btn = document.createElement("button");
+                    btn.addEventListener("click", function () {
+                        acceptValidity(x);
+                    });
+                    ul.appendChild(btn);
                 });
             })
+        }
+    });
+}
+
+function acceptValidity(x) {
+    fetch(baseUrl + "AcceptValidity?argID=" + x.id + "&userID=123", { headers: { "Content-Type": "application/json" }, method: 'POST' }).then(function (res) {
+        if (res.status != 200) {
+            alert(res.status)
+        } else {
+            //show tree again?
         }
     });
 }
