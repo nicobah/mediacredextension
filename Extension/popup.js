@@ -295,7 +295,7 @@ function FetchClaimsValidity() {
 }
 
 function acceptValidity(x) {
-    fetch(baseUrl + "AcceptValidity?argID=" + x.id + "&userID=123", { headers: { "Content-Type": "application/json" }, method: 'POST' }).then(function (res) {
+    fetch(baseUrl + "AcceptValidity?argInternalID=" + x.id + "&userID=AT1", { headers: { "Content-Type": "application/json" }, method: 'POST' }).then(function (res) {
         if (res.status != 200) {
             alert(res.status)
         } else {
@@ -309,7 +309,7 @@ function showTree(x) {
     //TODO Remove this
     x.id = "A1";
     //TODO end
-    fetch(baseUrl + "ArgTree?argId=" + x.id, { headers: { "Content-Type": "application/json" } }).then(function (res) {
+    fetch(baseUrl + "ArgTree?argId=" + x.id + "&userID=AT1", { headers: { "Content-Type": "application/json" } }).then(function (res) {
         if (res.status != 200) {
             alert(res.status)
         } else {
