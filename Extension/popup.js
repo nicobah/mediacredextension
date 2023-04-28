@@ -323,10 +323,17 @@ function showTree(x) {
                 chart.title(x.claim);
                 var c = document.getElementById("container");
                 var nodes = chart.nodes();
+                nodes.selected(function (e) {
+
+                });
                 nodes.labels().enabled(true);
                 nodes.labels().format("{%ll}");
                 chart.container(c);
                 chart.draw();
+                chart.listen("click", function (e) {
+                    var x = e.domTarget.tag.id;
+                });
+
 
 
                 document.getElementById("view1").hidden = true;
