@@ -24,17 +24,29 @@ FetchClaimsValidity();
 /* #region CurrentArticleCredibilityToulmin */
 
 //GET the toulmins fit of the current url
-const apiCall = baseUrl + "getlinktoulmin?url=localhost:6";
+function getToulminFit(id) {
+    const apiCall = baseUrl + "gettoulminstring?argid=" + id;
 
-fetch(apiCall, { headers: { "Content-Type": "application/json" } }).then(function (res) {
-    if (res.status !== 200) {
-        alert(res.status)
-    } else {
-        res.json().then(data => {
-            document.getElementById("linkCred").innerHTML = data;
-        })
-    }
-});
+    return new Promise((resolve, reject) => {
+        fetch(apiCall, { headers: { "Content-Type": "application/json" } })
+            .then((res) => {
+                if (res.status !== 200) {
+                    resolve("nope");
+                } else {
+                    res.json().then((data) => {
+                        resolve(data);
+                    });
+                }
+            })
+            .catch((error) => {
+                // Handle the error
+                console.error(error);
+                reject(error);
+            });
+    });
+}
+
+
 /* #endregion linkCred*/
 
 
@@ -264,35 +276,44 @@ function calculateOverallScore(scoreList) {
 
 
 
-function FetchClaimsValidity() {
+async function FetchClaimsValidity() {
     var url = "localhost:8";
     const getArgs = baseUrl + "GetArgsByArtLink?url=" + url;
 
-    fetch(getArgs, { headers: { "Content-Type": "application/json" } }).then(function (res) {
+    try {
+        const res = await fetch(getArgs, { headers: { "Content-Type": "application/json" } });
+
         if (res.status !== 200) {
-            alert(res.status)
+            alert(res.status);
         } else {
-            res.json().then(data => {
-                //document.getElementById("authoreval").innerHTML = JSON.stringify(data[0].Item3);
-                let ul = document.getElementById("claimsList");
-                data.forEach(x => {
-                    let li = document.createElement("li");
-                    let text = document.createTextNode(x.claim);
-                    li.appendChild(text);
-                    li.addEventListener("click", function () {
-                        showTree(x);
-                    });
-                    ul.appendChild(li);
-                    //let btn = document.createElement("button");
-                    //btn.addEventListener("click", function () {
-                    //    acceptValidity(x);
-                    //});
-                    //ul.appendChild(btn);
+            const data = await res.json();
+            let ul = document.getElementById("claimsList");
+
+            for (const x of data) {
+                let li = document.createElement("li");
+                let text = document.createTextNode(x.claim);
+                let toulminfit = await getToulminFit(x.id);
+                let tfit = document.createTextNode(" ----- " + toulminfit);
+
+                li.appendChild(text);
+                li.appendChild(tfit);
+
+
+                li.addEventListener("click", function () {
+                    showTree(x);
                 });
-            })
+
+                ul.appendChild(li);
+
+                // Add button and event listener code here
+            }
         }
-    });
+    } catch (error) {
+        console.error(error);
+        // Handle the error appropriately
+    }
 }
+
 
 function acceptValidity(x) {
     fetch(baseUrl + "AcceptValidity?argInternalID=" + x + "&userID=AT1", { headers: { "Content-Type": "application/json" }, method: 'POST' }).then(function (res) {

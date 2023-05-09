@@ -1,14 +1,7 @@
 // const baseUrl = 'https://mediacredapi-ii7nr2dupa-ew.a.run.app/';
 const baseUrl = 'https://localhost:7220/mediacredapi/'
 
-chrome.runtime.onMessage.addListener(
-    function (request, sender, sendResponse) {
-        if (request.greeting == "hello") {
-            alert("Hello");
-        }
-    }
 
-);
 
 function onBrowserOpen() {
     chrome.storage.sync.get(["userID"]).then((result) => {
