@@ -8,6 +8,8 @@ var topicValue = 1;
 var authorsValue = 1;
 var backingsValue = 1;
 var informationValue = 1
+let credScore = 0;
+let overallScore = 0;
 
 /* #region SettingsEventListeners */
 
@@ -175,7 +177,7 @@ function FetchArticleInfo() {
             res.json().then(data => {
                 //document.getElementById("authoreval").innerHTML = JSON.stringify(data[0].Item3);
                 AddCredEvalToTable(data);
-                var overallScore = calculateOverallScore(data);
+                overallScore = calculateOverallScore(data);
                 document.getElementById("overallScore").innerHTML = overallScore;
             })
         }
@@ -302,7 +304,6 @@ async function FetchClaimsValidity() {
         } else {
             const data = await res.json();
             let ul = document.getElementById("claimsList");
-            let credScore = 0;
             let u = 100 / data.length;
 
             for (const x of data) {
@@ -328,6 +329,8 @@ async function FetchClaimsValidity() {
                 // Add button and event listener code here
             }
             document.getElementById("overallScoreContent").innerHTML = credScore;
+            document.getElementById("finalScore").innerHTML = (credScore * 0.5) + (overallScore * 0.5);
+
         }
     } catch (error) {
         console.error(error);
