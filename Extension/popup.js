@@ -139,7 +139,7 @@ FetchArticleInfo();
 
 function FetchArticleInfo() {
     const articleEvalData = {
-        articleLink: "https://www.google.com/search?q=alexander+is+cool&sxsrf=AJOqlzWNaCaV7kNphpfRYNVKT88bYkHYnQ%3A1679050011600&source=hp&ei=G0UUZOOzIuyUxc8P7ZKsqAo&iflsig=AK50M_UAAAAAZBRTK7p2xWWfy-Qcz0mz0dhwABCHSdh1&ved=0ahUKEwijrf_b5OL9AhVsSvEDHW0JC6UQ4dUDCAc&uact=5&oq=alexander+is+cool&gs_lcp=Cgdnd3Mtd2l6EAMyBggAEBYQHjIGCAAQFhAeMgYIABAWEB4yBggAEBYQHjIGCAAQFhAeMgsIABAWEB4Q8QQQCjIGCAAQFhAeMgYIABAWEB4yBggAEBYQHjIGCAAQFhAeOgcIIxDqAhAnOg0ILhDHARCvARDqAhAnOgoILhDHARCvARAnOgQIIxAnOgQIABBDOgsIABCABBCxAxCDAToFCAAQgAQ6BQguEIAEOggILhCxAxCDAToICAAQgAQQsQM6EQguEIAEELEDEIMBEMcBENEDOgsILhCxAxCDARDUAjoECC4QQzoKCC4QsQMQgwEQQzoOCC4QgAQQsQMQgwEQ1AI6CggAELEDEIMBEEM6CwguEIAEELEDEIMBOggIABCxAxCDAToICC4QgAQQ1AI6CAguEIAEELEDOgcILhCxAxBDOgcILhDUAhBDOgcIABCxAxBDOg0ILhCxAxCDARDUAhBDOgsILhCABBCxAxDUAjoLCC4QgAQQxwEQrwE6CwguEIMBELEDEIAEOgsILhCABBDHARDRAzoICAAQgAQQywE6CAguEIAEEMsBOgoIABAWEB4QDxATOggIABAWEB4QEzoICAAQFhAeEA86CAgAEBYQHhAKUK0KWJwaYM0baAFwAHgAgAFOiAG1CZIBAjE3mAEAoAEBsAEK&sclient=gws-wiz",
+        articleLink: "https://onlinelibrary.wiley.com/doi/10.1111/cpr.13087",
         articleEvals: [
             { key: "information", value: informationValue },
             { key: "inappropriatewords", value: inappropriatewordsValue },
