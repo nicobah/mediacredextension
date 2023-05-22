@@ -32,8 +32,8 @@ async function fetchData() {
 }
 
 await fetchData();
-
 FetchClaimsValidity();
+
 
 /* #region CurrentArticleCredibilityToulmin */
 
@@ -292,7 +292,6 @@ function calculateOverallScore(scoreList) {
 
 async function FetchClaimsValidity() {
     let url = activeTab;
-
     const getArgs = baseUrl + "GetArgsByArtLink?url=" + url;
 
     try {
@@ -303,8 +302,13 @@ async function FetchClaimsValidity() {
         } else {
             const data = await res.json();
             let ul = document.getElementById("claimsList");
+            let credScore = 0;
+            let u = 100 / data.length;
 
             for (const x of data) {
+                if (x.isValid) {
+                    credScore += u;
+                }
                 let li = document.createElement("li");
                 let text = document.createTextNode("Claim: " + x.claim);
                 let toulminfit = await getToulminFit(x.id);
@@ -323,6 +327,7 @@ async function FetchClaimsValidity() {
 
                 // Add button and event listener code here
             }
+            document.getElementById("overallScoreContent").innerHTML = credScore;
         }
     } catch (error) {
         console.error(error);
@@ -343,9 +348,6 @@ function acceptValidity(x) {
 
 function showTree(x) {
 
-    //TODO Remove this
-    x.id = "A1";
-    //TODO end
     fetch(baseUrl + "ArgTree?argId=" + x.id + "&userID=AT1", { headers: { "Content-Type": "application/json" } }).then(function (res) {
         if (res.status != 200) {
             alert(res.status)
