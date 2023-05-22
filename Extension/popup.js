@@ -277,7 +277,7 @@ function calculateOverallScore(scoreList) {
 
 
 async function FetchClaimsValidity() {
-    var url = "localhost:8";
+    var url = "https://onlinelibrary.wiley.com/doi/10.1111/cpr.13087";
     const getArgs = baseUrl + "GetArgsByArtLink?url=" + url;
 
     try {
