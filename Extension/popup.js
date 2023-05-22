@@ -9,17 +9,31 @@ var authorsValue = 1;
 var backingsValue = 1;
 var informationValue = 1
 
-FetchClaimsValidity();
 /* #region SettingsEventListeners */
 
 /* #endregion */
 //GET url of active tab
 
 //UNCOMMENT, for debugging purposes
-// chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-//     activeTab = tabs[0];
-// });
+function getCurrentTab() {
+    return new Promise((resolve, reject) => {
+        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+            let currTab = tabs[0];
+            activeTab = currTab.url;
+            resolve(activeTab);
+        });
+    });
+}
 
+// Call getCurrentTab using async/await
+async function fetchData() {
+    activeTab = await getCurrentTab();
+    // Use the value of activeTab here
+}
+
+await fetchData();
+
+FetchClaimsValidity();
 
 /* #region CurrentArticleCredibilityToulmin */
 
@@ -135,11 +149,11 @@ function addAuthor() {
 
 /* #region GET authorcredibility*/
 //Get the authorCred eval
-FetchArticleInfo();
+await FetchArticleInfo();
 
 function FetchArticleInfo() {
     const articleEvalData = {
-        articleLink: "https://onlinelibrary.wiley.com/doi/10.1111/cpr.13087",
+        articleLink: activeTab,
         articleEvals: [
             { key: "information", value: informationValue },
             { key: "inappropriatewords", value: inappropriatewordsValue },
@@ -277,7 +291,8 @@ function calculateOverallScore(scoreList) {
 
 
 async function FetchClaimsValidity() {
-    var url = "https://onlinelibrary.wiley.com/doi/10.1111/cpr.13087";
+    let url = activeTab;
+
     const getArgs = baseUrl + "GetArgsByArtLink?url=" + url;
 
     try {
@@ -291,11 +306,12 @@ async function FetchClaimsValidity() {
 
             for (const x of data) {
                 let li = document.createElement("li");
-                let text = document.createTextNode(x.claim);
+                let text = document.createTextNode("Claim: " + x.claim);
                 let toulminfit = await getToulminFit(x.id);
-                let tfit = document.createTextNode(" ----- " + toulminfit);
+                let tfit = document.createTextNode("Fit: " + toulminfit);
 
                 li.appendChild(text);
+                li.appendChild(document.createElement("br"));
                 li.appendChild(tfit);
 
 
