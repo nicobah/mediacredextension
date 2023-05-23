@@ -73,6 +73,10 @@ document.getElementById("CredButton").addEventListener("click", openTab);
 document.getElementById("DataButton").addEventListener("click", openTab);
 document.getElementById("AddArticleBtn").addEventListener("click", addArticle);
 document.getElementById("AddAuthBtn").addEventListener("click", addAuthor);
+document.getElementById("addAuthorToArticle").addEventListener("click", addAuthorToArticle);
+document.getElementById("AddArgBtn").addEventListener("click", addArg);
+
+
 
 
 
@@ -101,9 +105,12 @@ function openTab(evt) {
 function addArticle() {
     const addArticleData = {
         title: document.getElementById("articleTitle").value,
-        authorId: selectedAuthor,
         publisher: document.getElementById("artPublisher").value,
-        link: "placeholder"
+        link: activeTab,
+        inappropriateWords: document.getElementById("artInappropriate").value,
+        references: document.getElementById("artRefs").value,
+        topic: document.getElementById("artTopic").value
+
     };
     const addArticleUrl = baseUrl + "createArticle";
     fetch(addArticleUrl, { headers: { "Content-Type": "application/json" }, method: 'POST', body: JSON.stringify(addArticleData) }).then(function (res) {
@@ -136,6 +143,45 @@ function addAuthor() {
         AreaOfExpertise: "areaofexpertise"
     };
     const addAuthorUrl = baseUrl + "createAuthor";
+    fetch(addAuthorUrl, { headers: { "Content-Type": "application/json" }, method: 'POST', body: JSON.stringify(addAuthorData) }).then(function (res) {
+        if (res.status !== 200) {
+            alert(res.status)
+        } else {
+            res.json().then(data => {
+
+            })
+        }
+    });
+
+}
+function addArg() {
+    const argData = {
+        claim: document.getElementById("argClaim").value,
+        ground: document.getElementById("argGround").value,
+        warrant: document.getElementById("argWarrant").value,
+        artlink: activeTab
+    };
+    fetch(baseUrl + "createargument", { headers: { "Content-Type": "application/json" }, method: 'POST', body: JSON.stringify(argData) }).then(function (res) {
+        if (res.status !== 200) {
+            alert(res.status)
+        } else {
+            res.json().then(data => {
+
+            });
+        }
+
+
+    });
+}
+
+
+
+function addAuthorToArticle() {
+    const addAuthorData = {
+        link: activeTab,
+        authorId: selectedAuthor
+    };
+    const addAuthorUrl = baseUrl + "AddAuthor";
     fetch(addAuthorUrl, { headers: { "Content-Type": "application/json" }, method: 'POST', body: JSON.stringify(addAuthorData) }).then(function (res) {
         if (res.status !== 200) {
             alert(res.status)
@@ -347,6 +393,7 @@ function acceptValidity(x) {
         }
     });
 }
+
 
 function showTree(x) {
 

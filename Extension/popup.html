@@ -69,11 +69,23 @@
             <label for="artPublisher">Publisher:</label>
             <input type="text" id="artPublisher" name="artPublisher"><br><br>
 
+            <label for="artTopic">Topic:</label>
+            <input type="text" id="artTopic" name="artTopic"><br><br>
+
+            <label for="artInappropriate">Innaproriate words:</label>
+            <input type="number" id="artInappropriate" name="artInappropriate"><br><br>
+
+            <label for="artRefs">References:</label>
+            <input type="number" id="artRefs" name="artRefs"><br><br>
+            <button type="submit" id="AddArticleBtn">Add Article</button>
+            <br>
+            <br>
+            <br>
             <input type="text" id="authorSearch" placeholder="Search for Author">
             <ul id="authorList"></ul>
+            <button type="submit" id="addAuthorToArticle">Add Author</button>
 
 
-            <button type="submit" id="AddArticleBtn">Add Article</button>
         </form>
         <form>
             <h3>Create Author</h3>
@@ -96,8 +108,24 @@
             <input type="text" id="authOrientation" name="authOrientation"><br><br>
 
 
-            <button type="submit" id="AddAuthBtn">Add Author</button>
+            <button type="submit" id="AddAuthBtn">Create Author</button>
         </form>
+
+        </form>
+        <form>
+            <h3>Create Argument</h3>
+            <label for="argClaim">Claim:</label>
+            <input type="text" id="argClaim" name="argClaim"><br><br>
+
+            <label for="argGround">Ground:</label>
+            <input type="text" id="argGround" name="argGround"><br><br>
+
+            <label for="argWarrant">Bio:</label>
+            <input type="text" id="argWarrant" name="argWarrant"><br><br>
+
+            <button type="submit" id="AddArgBtn">Create Argument</button>
+        </form>
+
 
     </div>
     <!-- #endregion -->
