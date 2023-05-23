@@ -25,6 +25,7 @@ function getCurrentTab() {
             resolve(activeTab);
         });
     });
+
 }
 
 // Call getCurrentTab using async/await
@@ -355,26 +356,38 @@ async function FetchClaimsValidity() {
         } else {
             const data = await res.json();
             let table = document.getElementById("claimsList");
+            let tableActions = document.getElementById("claimsActions");
+
             let u = 100 / data.length;
 
             for (const x of data) {
                 if (x.isValid) {
                     credScore += u;
                 }
+
+
                 const newRow = table.insertRow();
                 const claimCell = newRow.insertCell();
                 claimCell.textContent = x.claim;
+                const newRowActions = tableActions.insertRow();
+                const claimCellActions = newRowActions.insertCell();
+                claimCellActions.textContent = x.claim;
+
+
                 let toulminfit = await getToulminFit(x.id);
                 const fitCell = newRow.insertCell();
                 fitCell.textContent = toulminfit;
-                const argCell = newRow.insertCell();
+
+
+                const argCell = newRowActions.insertCell();
                 let argBtn = document.createElement('button');
-                argBtn.textContent = "Add Arg";
+                argBtn.textContent = "Back";
                 argBtn.addEventListener('click', function () {
                     addArgBacking(x.id);
                 });
                 argCell.appendChild(argBtn);
-                const idCell = newRow.insertCell();
+
+                const idCell = newRowActions.insertCell();
                 let idBtn = document.createElement('button');
                 idBtn.textContent = "Get Id";
                 idBtn.addEventListener('click', function () {
@@ -384,6 +397,16 @@ async function FetchClaimsValidity() {
                 claimCell.addEventListener("click", function () {
                     showTree(x);
                 });
+
+                const disputeCell = newRowActions.insertCell();
+                let disputeBtn = document.createElement('button');
+                disputeBtn.textContent = "Dispute";
+                disputeBtn.addEventListener('click', function () {
+                    addArgDispute(x.id);
+
+                });
+                disputeCell.appendChild(disputeBtn);
+
                 // Add button and event listener code here
             }
             document.getElementById("overallScoreContent").innerHTML = credScore;
@@ -412,6 +435,23 @@ function addArgBacking(id) {
     const userInput = prompt("Enter Id of argument to back this");
     if (userInput) {
         fetch(baseUrl + "createbacking?backedById=" + userInput + "&backedID=" + id, { headers: { "Content-Type": "application/json" }, method: 'POST' }).then(function (res) {
+            if (res.status !== 200) {
+                alert(res.status)
+            } else {
+                res.json().then(data => {
+
+                })
+            }
+        });
+
+    }
+
+}
+function addArgDispute(id) {
+
+    const userInput = prompt("Enter Id of argument to dispute this");
+    if (userInput) {
+        fetch(baseUrl + "createrebuttal?disputedById=" + userInput + "&disputedID=" + id, { headers: { "Content-Type": "application/json" }, method: 'POST' }).then(function (res) {
             if (res.status !== 200) {
                 alert(res.status)
             } else {

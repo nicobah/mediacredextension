@@ -47,8 +47,6 @@
                     <table id="claimsList">
                         <td>Claim</td>
                         <td>Fit</td>
-                        <td>AddArg</td>
-                        <td>GetId</td>
                     </table>
 
                 </div>
@@ -67,74 +65,86 @@
 
     <!-- #region DataContent -->
     <div id="DataButtonContent" class="tabcontent">
-        <form>
-            <h3>Create Article</h3>
-            <label for="articleTitle">Title:</label>
-            <input type="text" id="articleTitle" name="articleTitle"><br><br>
+        <div class="row">
+            <div class="column">
+                <form>
+                    <h3>Create Article</h3>
+                    <label for="articleTitle">Title:</label>
+                    <input type="text" id="articleTitle" name="articleTitle"><br><br>
 
-            <label for="artPublisher">Publisher:</label>
-            <input type="text" id="artPublisher" name="artPublisher"><br><br>
+                    <label for="artPublisher">Publisher:</label>
+                    <input type="text" id="artPublisher" name="artPublisher"><br><br>
 
-            <label for="artTopic">Topic:</label>
-            <input type="text" id="artTopic" name="artTopic"><br><br>
+                    <label for="artTopic">Topic:</label>
+                    <input type="text" id="artTopic" name="artTopic"><br><br>
 
-            <label for="artInappropriate">Innaproriate words:</label>
-            <input type="number" id="artInappropriate" name="artInappropriate"><br><br>
+                    <label for="artInappropriate">Innaproriate words:</label>
+                    <input type="number" id="artInappropriate" name="artInappropriate"><br><br>
 
-            <label for="artRefs">References:</label>
-            <input type="number" id="artRefs" name="artRefs"><br><br>
-            <button type="submit" id="AddArticleBtn">Add Article</button>
-            <br>
-            <br>
-            <br>
-            <input type="text" id="authorSearch" placeholder="Search for Author">
-            <ul id="authorList"></ul>
-            <button type="submit" id="addAuthorToArticle">Add Author</button>
-
-
-        </form>
-        <form>
-            <h3>Create Author</h3>
-            <label for="authName">Name:</label>
-            <input type="text" id="authName" name="authName"><br><br>
-
-            <label for="authAge">Age:</label>
-            <input type="number" id="authAge" name="authAge"><br><br>
-
-            <label for="authBio">Bio:</label>
-            <input type="text" id="authBio" name="authBio"><br><br>
-
-            <label for="authCompany">Company:</label>
-            <input type="text" id="authCompany" name="authCompany"><br><br>
-
-            <label for="authEducation">Education:</label>
-            <input type="text" id="authEducation" name="authEducation"><br><br>
-
-            <label for="authOrientation">Political Orientation:</label>
-            <input type="text" id="authOrientation" name="authOrientation"><br><br>
+                    <label for="artRefs">References:</label>
+                    <input type="number" id="artRefs" name="artRefs"><br><br>
+                    <button type="submit" id="AddArticleBtn">Add Article</button>
+                    <br>
+                    <br>
+                    <br>
+                    <input type="text" id="authorSearch" placeholder="Search for Author">
+                    <ul id="authorList"></ul>
+                    <button type="submit" id="addAuthorToArticle">Add Author</button>
 
 
-            <button type="submit" id="AddAuthBtn">Create Author</button>
-        </form>
+                </form>
+                <form>
+                    <h3>Create Author</h3>
+                    <label for="authName">Name:</label>
+                    <input type="text" id="authName" name="authName"><br><br>
 
-        </form>
-        <form>
-            <h3>Create Argument</h3>
-            <label for="argClaim">Claim:</label>
-            <input type="text" id="argClaim" name="argClaim"><br><br>
+                    <label for="authAge">Age:</label>
+                    <input type="number" id="authAge" name="authAge"><br><br>
 
-            <label for="argGround">Ground:</label>
-            <input type="text" id="argGround" name="argGround"><br><br>
+                    <label for="authBio">Bio:</label>
+                    <input type="text" id="authBio" name="authBio"><br><br>
 
-            <label for="argWarrant">Bio:</label>
-            <input type="text" id="argWarrant" name="argWarrant"><br><br>
+                    <label for="authCompany">Company:</label>
+                    <input type="text" id="authCompany" name="authCompany"><br><br>
 
-            <button type="submit" id="AddArgBtn">Create Argument</button>
-        </form>
+                    <label for="authEducation">Education:</label>
+                    <input type="text" id="authEducation" name="authEducation"><br><br>
+
+                    <label for="authOrientation">Political Orientation:</label>
+                    <input type="text" id="authOrientation" name="authOrientation"><br><br>
 
 
-    </div>
-    <!-- #endregion -->
+                    <button type="submit" id="AddAuthBtn">Create Author</button>
+                </form>
+
+                </form>
+                <form>
+                    <h3>Create Argument</h3>
+                    <label for="argClaim">Claim:</label>
+                    <input type="text" id="argClaim" name="argClaim"><br><br>
+
+                    <label for="argGround">Ground:</label>
+                    <input type="text" id="argGround" name="argGround"><br><br>
+
+                    <label for="argWarrant">Bio:</label>
+                    <input type="text" id="argWarrant" name="argWarrant"><br><br>
+
+                    <button type="submit" id="AddArgBtn">Create Argument</button>
+                </form>
+            </div>
+            <div class="column">
+                <p>Article Claims</p>
+                <table id="claimsActions">
+                    <td>Claim</td>
+                    <td>Back</td>
+                    <td>GetId</td>
+                    <td>Dispute</td>
+
+                </table>
+
+            </div>
+        </div>
+        <!-- #endregion -->
 
 
 
