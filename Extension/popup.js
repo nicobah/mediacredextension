@@ -208,7 +208,6 @@ function FetchArticleInfo() {
             { key: "references", value: referencesValue },
             { key: "topic", value: topicValue },
             { key: "author", value: authorInformationValue },
-            { key: "backing", value: backingsValue },
         ],
         authorEvals: [
             { key: "information", value: authorInformationValue },
