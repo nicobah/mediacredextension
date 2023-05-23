@@ -249,17 +249,23 @@ function searchAuthors(evt) {
         } else {
             res.json().then(data => {
                 for (i = 0; i < data.length; i++) {
-                    var li = document.createElement('li');
-                    li.id = data[i].id;
-                    li.appendChild(document.createTextNode(data[i].name));
-                    li.addEventListener("click", selectAuthor);
-                    li.display = "block";
-                    ul.appendChild(li);
+                    if (!ul.querySelector(data[i].id)) {
+
+                        var li = document.createElement('li');
+                        li.id = data[i].id;
+                        li.appendChild(document.createTextNode(data[i].name));
+                        li.addEventListener("click", selectAuthor);
+                        li.display = "block";
+                        ul.appendChild(li);
+                    }
                 }
             })
         }
     });
 }
+
+
+
 
 function selectAuthor(evt) {
     var ul = document.getElementById("authorList");
@@ -349,29 +355,36 @@ async function FetchClaimsValidity() {
             alert(res.status);
         } else {
             const data = await res.json();
-            let ul = document.getElementById("claimsList");
+            let table = document.getElementById("claimsList");
             let u = 100 / data.length;
 
             for (const x of data) {
                 if (x.isValid) {
                     credScore += u;
                 }
-                let li = document.createElement("li");
-                let text = document.createTextNode("Claim: " + x.claim);
+                const newRow = table.insertRow();
+                const claimCell = newRow.insertCell();
+                claimCell.textContent = x.claim;
                 let toulminfit = await getToulminFit(x.id);
-                let tfit = document.createTextNode("Fit: " + toulminfit);
-
-                li.appendChild(text);
-                li.appendChild(document.createElement("br"));
-                li.appendChild(tfit);
-
-
-                li.addEventListener("click", function () {
+                const fitCell = newRow.insertCell();
+                fitCell.textContent = toulminfit;
+                const argCell = newRow.insertCell();
+                let argBtn = document.createElement('button');
+                argBtn.textContent = "Add Arg";
+                argBtn.addEventListener('click', function () {
+                    addArgBacking(x.id);
+                });
+                argCell.appendChild(argBtn);
+                const idCell = newRow.insertCell();
+                let idBtn = document.createElement('button');
+                idBtn.textContent = "Get Id";
+                idBtn.addEventListener('click', function () {
+                    alert(x.id);
+                });
+                idCell.appendChild(idBtn);
+                claimCell.addEventListener("click", function () {
                     showTree(x);
                 });
-
-                ul.appendChild(li);
-
                 // Add button and event listener code here
             }
             document.getElementById("overallScoreContent").innerHTML = credScore;
@@ -393,6 +406,24 @@ function acceptValidity(x) {
             location.reload();
         }
     });
+}
+
+function addArgBacking(id) {
+
+    const userInput = prompt("Enter Id of argument to back this");
+    if (userInput) {
+        fetch(baseUrl + "createbacking?backedById=" + userInput + "&backedID=" + id, { headers: { "Content-Type": "application/json" }, method: 'POST' }).then(function (res) {
+            if (res.status !== 200) {
+                alert(res.status)
+            } else {
+                res.json().then(data => {
+
+                })
+            }
+        });
+
+    }
+
 }
 
 
