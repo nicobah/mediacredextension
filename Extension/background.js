@@ -16,7 +16,7 @@ function onBrowserOpen() {
                 console.log(res.status);
             } else {
                 res.json().then(data => {
-                    console.log(data);
+                    handleSuccess(data);
                 })
             }
         });
@@ -25,17 +25,22 @@ function onBrowserOpen() {
 }
 
 function handleSuccess(data) {
-    console.log(data);
-    if (data) {
-        chrome.windows.create({
-            type: 'popup',
-            url: 'nudge.html',
-            width: 400,
-            height: 300
-        });
-    }
+    var link = data.Link;
+    chrome.storage.sync.set({ "Nudge": link }, function () {
+        console.log('Value is set.');
+    });
+    var title = data.Title;
+    chrome.storage.sync.set({ "Title": title }, function () {
+        console.log('Value is set.');
+    });
+    chrome.windows.create({
+        type: 'popup',
+        url: 'nudge.html',
+        width: 400,
+        height: 300
+    });
 }
 
 // This event listener runs the createPopup function when the extension is first loaded
-chrome.runtime.onInstalled.addListener(onBrowserOpen);
-// chrome.windows.onCreated.addListener(createPopup);
+// chrome.runtime.onInstalled.addListener(onBrowserOpen);
+chrome.windows.onCreated.addListener(onBrowserOpen);
