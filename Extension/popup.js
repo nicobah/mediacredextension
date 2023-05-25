@@ -25,7 +25,6 @@ function getCurrentTab() {
             resolve(activeTab);
         });
     });
-
 }
 
 // Call getCurrentTab using async/await
@@ -242,22 +241,24 @@ function searchAuthors(evt) {
     var value = document.getElementById("authorSearch").value;
     var getSearchUrl = baseUrl + "AuthorFilterName?name=" + value;
     var ul = document.getElementById("authorList");
+    while (ul.firstChild) {
+        ul.removeChild(ul.firstChild);
+    }
     var i;
     fetch(getSearchUrl, { headers: { "Content-Type": "application/json" }, method: 'GET' }).then(function (res) {
         if (res.status !== 200) {
-            alert(res.status)
         } else {
             res.json().then(data => {
                 for (i = 0; i < data.length; i++) {
-                    if (!ul.querySelector(data[i].id)) {
 
-                        var li = document.createElement('li');
-                        li.id = data[i].id;
-                        li.appendChild(document.createTextNode(data[i].name));
-                        li.addEventListener("click", selectAuthor);
-                        li.display = "block";
-                        ul.appendChild(li);
-                    }
+
+                    var li = document.createElement('li');
+                    li.id = data[i].id;
+                    li.appendChild(document.createTextNode(data[i].name));
+                    li.addEventListener("click", selectAuthor);
+                    li.display = "block";
+                    ul.appendChild(li);
+
                 }
             })
         }
