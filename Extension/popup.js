@@ -241,14 +241,15 @@ function searchAuthors(evt) {
     var value = document.getElementById("authorSearch").value;
     var getSearchUrl = baseUrl + "AuthorFilterName?name=" + value;
     var ul = document.getElementById("authorList");
-    while (ul.firstChild) {
-        ul.removeChild(ul.firstChild);
-    }
+
     var i;
     fetch(getSearchUrl, { headers: { "Content-Type": "application/json" }, method: 'GET' }).then(function (res) {
         if (res.status !== 200) {
         } else {
             res.json().then(data => {
+                while (ul.firstChild) {
+                    ul.removeChild(ul.firstChild);
+                }
                 for (i = 0; i < data.length; i++) {
 
 
@@ -258,7 +259,6 @@ function searchAuthors(evt) {
                     li.addEventListener("click", selectAuthor);
                     li.display = "block";
                     ul.appendChild(li);
-
                 }
             })
         }
