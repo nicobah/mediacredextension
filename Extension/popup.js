@@ -361,9 +361,7 @@ async function FetchClaimsValidity() {
             let u = 100 / data.length;
 
             for (const x of data) {
-                if (x.isValid) {
-                    credScore += u;
-                }
+                credScore += (u * x.weight);
 
 
                 const newRow = table.insertRow();
