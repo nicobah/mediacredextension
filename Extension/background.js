@@ -1,8 +1,6 @@
 // const baseUrl = 'https://mediacredapi-ii7nr2dupa-ew.a.run.app/';
 const baseUrl = 'https://localhost:7220/mediacredapi/'
 
-
-
 function onBrowserOpen() {
     chrome.storage.sync.get(["userID"]).then((result) => {
         console.log(result.userID);
@@ -23,6 +21,7 @@ function onBrowserOpen() {
     });
 
 }
+
 
 function handleSuccess(data) {
     var link = data.Link;

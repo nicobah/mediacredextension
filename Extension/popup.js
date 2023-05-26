@@ -36,6 +36,37 @@ async function fetchData() {
 await fetchData();
 FetchClaimsValidity();
 
+chrome.storage.sync.get(["userID"]).then((result) => {
+    console.log(result.userID);
+
+    const userData = {
+        id: result.userID
+    };
+
+    //const addArticleReadUrl = baseUrl + "addarticleread?userid=" + result.userID + "&url="+ activeTab;
+    const addArticleReadUrl = baseUrl + "addarticleread?userid="+ userData.id + "&url="+ activeTab;
+    fetch(addArticleReadUrl, { headers: { "Content-Type": "application/json" }, method: 'POST' }).then(function (res) {
+        if (res.status !== 200) {
+            console.log(res.status);
+        } else {
+            res.json().then(data => {
+                handleSuccess(data);
+            })
+        }
+    });
+});
+
+function getUserID(callback) {
+    chrome.storage.sync.get(["userID"], (result) => {
+      callback(result.userID);
+    });
+  }
+
+  function getUserData(callback) {
+    chrome.storage.sync.get(["userID", "infoWeight", "topicWeight"], (result) => {
+      callback(result);
+    });
+  }
 
 /* #region CurrentArticleCredibilityToulmin */
 
@@ -135,14 +166,14 @@ function addAuthor() {
     const addAuthorData = {
         Name: document.getElementById("authName").value,
         Age: document.getElementById("authAge").value,
-        Image: "image",
+        //Image: "image",
         Company: document.getElementById("authCompany").value,
         Education: document.getElementById("authEducation").value,
         PoliticalOrientation: document.getElementById("authOrientation").value,
-        Bio: document.getElementById("authBio").value,
-        AreaOfExpertise: "areaofexpertise"
+        Bio: document.getElementById("authBio").value
+        //AreaOfExpertise: "areaofexpertise"
     };
-    const addAuthorUrl = baseUrl + "createAuthor";
+    const addAuthorUrl = baseUrl + "createAuthor?artLink="+activeTab;
     fetch(addAuthorUrl, { headers: { "Content-Type": "application/json" }, method: 'POST', body: JSON.stringify(addAuthorData) }).then(function (res) {
         if (res.status !== 200) {
             alert(res.status)
@@ -200,14 +231,15 @@ function addAuthorToArticle() {
 await FetchArticleInfo();
 
 function FetchArticleInfo() {
+    chrome.storage.sync.get(["userID", "artInfoWeight", "topicWeight", "authorWeight", "iwWeight", "refWeight"]).then((result) => {
     const articleEvalData = {
         articleLink: activeTab,
         articleEvals: [
-            { key: "information", value: informationValue },
-            { key: "inappropriatewords", value: inappropriatewordsValue },
-            { key: "references", value: referencesValue },
-            { key: "topic", value: topicValue },
-            { key: "author", value: authorInformationValue },
+            { key: "information", value: result.artInfoWeight },
+            { key: "inappropriatewords", value: result.iwWeight },
+            { key: "references", value: result.refWeight },
+            { key: "topic", value: result.topicWeight },
+            { key: "author", value: result.authorWeight },
         ],
         authorEvals: [
             { key: "information", value: authorInformationValue },
@@ -227,6 +259,7 @@ function FetchArticleInfo() {
             })
         }
     });
+});
 }
 
 
@@ -420,20 +453,36 @@ async function FetchClaimsValidity() {
 
 
 function acceptValidity(x) {
-    fetch(baseUrl + "AcceptValidity?argInternalID=" + x + "&userID=AT1", { headers: { "Content-Type": "application/json" }, method: 'POST' }).then(function (res) {
+    getUserID((userID) => {
+    fetch(baseUrl + "AcceptValidity?argInternalID=" + x + "&userID="+userID, { headers: { "Content-Type": "application/json" }, method: 'POST' }).then(function (res) {
         if (res.status != 200) {
             alert(res.status)
         } else {
             location.reload();
         }
     });
+});
 }
 
 function addArgBacking(id) {
-
+    chrome.storage.sync.get(["userID", "artInfoWeight", "topicWeight", "authorWeight", "iwWeight", "refWeight"]).then((result) => {
+        const articleEvalData = {
+            articleLink: activeTab,
+            articleEvals: [
+                { key: "information", value: result.artInfoWeight },
+                { key: "inappropriatewords", value: result.iwWeight },
+                { key: "references", value: result.refWeight },
+                { key: "topic", value: result.topicWeight },
+                { key: "author", value: result.authorWeight },
+            ],
+        authorEvals: [
+            { key: "information", value: authorInformationValue },
+        ]
+    };
     const userInput = prompt("Enter Id of argument to back this");
     if (userInput) {
-        fetch(baseUrl + "createbacking?backedById=" + userInput + "&backedID=" + id, { headers: { "Content-Type": "application/json" }, method: 'POST' }).then(function (res) {
+        getUserID((userID) => {
+        fetch(baseUrl + "createbacking?backedById=" + userInput + "&backedID=" + id + "&userID="+userID, { headers: { "Content-Type": "application/json" }, method: 'POST', body: JSON.stringify(articleEvalData) }).then(function (res) {
             if (res.status !== 200) {
                 alert(res.status)
             } else {
@@ -442,15 +491,31 @@ function addArgBacking(id) {
                 })
             }
         });
-
+    });
     }
-
+});
 }
+
 function addArgDispute(id) {
-
+    chrome.storage.sync.get(["userID", "artInfoWeight", "topicWeight", "authorWeight", "iwWeight", "refWeight"]).then((result) => {
+        const articleEvalData = {
+            articleLink: activeTab,
+            articleEvals: [
+                { key: "information", value: result.artInfoWeight },
+                { key: "inappropriatewords", value: result.iwWeight },
+                { key: "references", value: result.refWeight },
+                { key: "topic", value: result.topicWeight },
+                { key: "author", value: result.authorWeight },
+            ],
+        authorEvals: [
+            { key: "information", value: authorInformationValue },
+        ]
+    };
     const userInput = prompt("Enter Id of argument to dispute this");
+    
     if (userInput) {
-        fetch(baseUrl + "createrebuttal?disputedById=" + userInput + "&disputedID=" + id, { headers: { "Content-Type": "application/json" }, method: 'POST' }).then(function (res) {
+        getUserID((userID) => {
+        fetch(baseUrl + "createrebuttal?disputedById=" + userInput + "&disputedID=" + id + "&userID="+ userID, { headers: { "Content-Type": "application/json" }, method: 'POST', body: JSON.stringify(articleEvalData) }).then(function (res) {
             if (res.status !== 200) {
                 alert(res.status)
             } else {
@@ -459,47 +524,49 @@ function addArgDispute(id) {
                 })
             }
         });
-
+        });
     }
-
+});
 }
-
 
 function showTree(x) {
-
-    fetch(baseUrl + "ArgTree?argId=" + x.id + "&userID=AT1", { headers: { "Content-Type": "application/json" } }).then(function (res) {
-        if (res.status != 200) {
-            alert(res.status)
-        } else {
-            res.json().then(data => {
-
-                let chartData = {
-                    nodes: data.nodes,
-                    edges: data.edges
+    //fetch(baseUrl + "ArgTree?argId=" + x.id + "&userID=AT1", { headers: { "Content-Type": "application/json" } }).then(function (res) {
+        getUserID((userID) => {
+            fetch(baseUrl + "ArgTree?argId=" + x.id + "&userID="+userID, { headers: { "Content-Type": "application/json" } }).then(function (res) {
+                if (res.status != 200) {
+                    alert(res.status)
+                } else {
+                    res.json().then(data => {
+        
+                        let chartData = {
+                            nodes: data.nodes,
+                            edges: data.edges
+                        }
+                        var chart = anychart.graph(chartData);
+                        chart.title(x.claim);
+                        var c = document.getElementById("container");
+                        var nodes = chart.nodes();
+                        nodes.selected(function (e) {
+        
+                        });
+                        nodes.labels().enabled(true);
+                        nodes.labels().format("{%ll}");
+                        chart.container(c);
+                        chart.draw();
+                        chart.listen("click", function (e) {
+                            var x = e.domTarget.tag.id;
+                            acceptValidity(x)
+                        });
+        
+        
+        
+                        document.getElementById("view1").hidden = true;
+                        document.getElementById("view2").hidden = false;
+                    });
                 }
-                var chart = anychart.graph(chartData);
-                chart.title(x.claim);
-                var c = document.getElementById("container");
-                var nodes = chart.nodes();
-                nodes.selected(function (e) {
-
-                });
-                nodes.labels().enabled(true);
-                nodes.labels().format("{%ll}");
-                chart.container(c);
-                chart.draw();
-                chart.listen("click", function (e) {
-                    var x = e.domTarget.tag.id;
-                    acceptValidity(x)
-                });
-
-
-
-                document.getElementById("view1").hidden = true;
-                document.getElementById("view2").hidden = false;
             });
-        }
-    });
+          });
+    
 
 
 }

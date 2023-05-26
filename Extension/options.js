@@ -1,7 +1,12 @@
 const saveOptions = () => {
     const userID = document.getElementById("userID").value;
+    const authorWeight = document.getElementById("authorInformationWeight").value;
+    const iwWeight = document.getElementById("InappropriateWeight").value;
+    const refWeight = document.getElementById("referencesWeight").value;
+    const topicWeight = document.getElementById("topicWeight").value;
+    const artInfoWeight = document.getElementById("articleInformationWeight").value;
 
-    chrome.storage.sync.set({ userID: userID }, () => {
+    chrome.storage.sync.set({ userID: userID, authorWeight: authorWeight, iwWeight: iwWeight, refWeight: refWeight, topicWeight: topicWeight, artInfoWeight: artInfoWeight }, () => {
         const status = document.getElementById("status");
         status.textContent = "Options saved.";
         setTimeout(() => {
@@ -13,12 +18,15 @@ const saveOptions = () => {
 
 
 const restoreOptions = () => {
-    chrome.storage.sync.get(
-        { userID: "" },
-        (items) => {
-            document.getElementById('userID').value = items.userID;
-        }
-    );
+    chrome.storage.sync.get(["userID", "artInfoWeight", "topicWeight", "authorWeight", "iwWeight", "refWeight"], (result) => {
+            document.getElementById('userID').value = result.userID;
+            document.getElementById('authorInformationWeight').value = result.authorWeight;
+            document.getElementById('InappropriateWeight').value = result.iwWeight;
+            document.getElementById('referencesWeight').value = result.refWeight;
+            document.getElementById('topicWeight').value = result.topicWeight;
+            document.getElementById('articleInformationWeight').value = result.artInfoWeight;
+        
+    });
 };
 
 document.addEventListener('DOMContentLoaded', restoreOptions);
