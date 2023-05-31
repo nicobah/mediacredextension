@@ -1,5 +1,5 @@
-// const baseUrl = 'https://mediacred-rswnzpohoq-ew.a.run.app/mediacredapi/';
-const baseUrl = 'https://localhost:7220/mediacredapi/'
+const baseUrl = 'https://mediacredapi-ii7nr2dupa-ew.a.run.app/mediacredapi/';
+//const baseUrl = 'https://localhost:7220/mediacredapi/'
 var selectedAuthor, activeTab;
 var authorInformationValue = 1;
 var inappropriatewordsValue = 1;
